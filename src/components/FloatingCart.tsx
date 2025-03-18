@@ -6,12 +6,7 @@ const FloatingCart = () => {
   const padding = 120;
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [bubbles, setBubbles] = useState<any[]>([]);
-  const [constraints, setConstraints] = useState({
-    left: -window.innerWidth + padding,
-    right: 0,
-    top: -window.innerHeight + padding,
-    bottom: 0,
-  });
+  const [constraints, setConstraints] = useState(constraintValues());
 
   useEffect(() => {
     // Generate floating bubbles
@@ -24,12 +19,7 @@ const FloatingCart = () => {
 
     // Set screen constraints dynamically
     const updateConstraints = () => {
-      setConstraints({
-        left: -window.innerWidth + padding,
-        right: 0,
-        top: -window.innerHeight + padding,
-        bottom: 0,
-      });
+      setConstraints(constraintValues());
     };
 
     updateConstraints();
@@ -110,6 +100,15 @@ const FloatingCart = () => {
       ))}
     </motion.div>
   );
+
+  function constraintValues(): { left: number; right: number; top: number; bottom: number; } | (() => { left: number; right: number; top: number; bottom: number; }) {
+    return {
+      left: -window.innerWidth + padding + 20,
+      right: 0,
+      top: -window.innerHeight + padding + 20,
+      bottom: 0,
+    };
+  }
 };
 
 export default FloatingCart;

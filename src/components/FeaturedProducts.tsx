@@ -1,4 +1,4 @@
-import { Product } from "../types/Products";
+import { Product } from "../types/product.dto";
 import ProductCard from "./ProductCard";
 
 export default function FeaturedProducts() {

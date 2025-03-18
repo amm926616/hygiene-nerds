@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { BubbleFlow } from "./BubbleFlow";
 
 const modelImages: Record<string, string> = {
-  products: "src/assets/waiting0.jpg",
-  about: "src/assets/waiting1.jpg",
-  contact: "src/assets/waiting2.jpg",
-  home: "src/assets/waiting3.jpg",
+  products: "src/assets/models/waiting.jpg",
+  about: "src/assets/models/waiting.jpg",
+  contact: "src/assets/models/waiting.jpg",
+  home: "src/assets/models/waiting.jpg",
 };
 
 interface ModelPageProps {
@@ -14,6 +14,9 @@ interface ModelPageProps {
   duration?: number; // Default is 5000ms (5 seconds)
   children?: React.ReactNode;
 }
+
+const intro_title = "Hygiene Nerds";
+const intro_content = "The place for all hygiene products with beautiful market place";
 
 export const ModelPage: React.FC<ModelPageProps> = ({ pageKey, children, duration = 1000 }) => {
   useEffect(() => {
@@ -51,8 +54,8 @@ export const ModelPage: React.FC<ModelPageProps> = ({ pageKey, children, duratio
 
         {/* Overlay Text */}
         <div className="absolute text-white text-center">
-          <h1 className="text-3xl md:text-5xl font-semibold">Welcome...</h1>
-          <p className="text-lg md:text-xl mt-2 opacity-70">Enjoy the view before entering!</p>
+          <h1 className="text-3xl md:text-5xl font-semibold">{intro_title}</h1>
+          <p className="text-lg md:text-xl mt-2 opacity-70">{intro_content}</p>
         </div>
       </motion.div>
 
