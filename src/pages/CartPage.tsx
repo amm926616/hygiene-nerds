@@ -1,10 +1,12 @@
 import Cart from "../components/Cart";
+import { ModelPage } from "../components/IntroPage";
 
-export default function CartPage(){
+export default function CartPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Cart />
-    </div>
+    <>
+    {/* <ModelPage pageKey="cart" duration={2000} /> */}
+    <ModelPage pageKey="main" duration={2000} />
+    <Cart />
+    </>
   );
-};
-
+}

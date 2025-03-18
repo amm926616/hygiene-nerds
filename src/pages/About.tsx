@@ -1,6 +1,9 @@
+import { ModelPage } from "../components/IntroPage";
+
 export default function About() {
   return (
     <div className="container mx-auto px-6 py-12 max-w-3xl text-center">
+      <ModelPage pageKey="about" duration={2000} />
       <h2 className="text-4xl font-extrabold text-gray-900 mb-6">About Us</h2>
       <p className="text-lg text-gray-700 leading-relaxed">
         Welcome to <span className="font-semibold text-blue-600">Hygiene Nerds</span>, your trusted destination for high-quality hygiene products.
