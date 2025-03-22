@@ -15,10 +15,15 @@ interface ModelPageProps {
   children?: React.ReactNode;
 }
 
-const intro_title = "Hygiene Nerds";
-const intro_content = "The place for all hygiene products with beautiful market place";
+const intro_title = "Hygiene Nerds Market Place";
+const intro_content =
+  "The place for all hygiene products with beautiful market place";
 
-export const ModelPage: React.FC<ModelPageProps> = ({ pageKey, children, duration = 1000 }) => {
+export const ModelPage: React.FC<ModelPageProps> = ({
+  pageKey,
+  children,
+  duration = 1000,
+}) => {
   useEffect(() => {
     // Disable scrolling completely (prevent scrollbar pop-up)
     document.documentElement.style.overflow = "hidden";
@@ -47,7 +52,9 @@ export const ModelPage: React.FC<ModelPageProps> = ({ pageKey, children, duratio
       >
         <motion.div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${modelImages[pageKey] || modelImages["home"]})` }} // Default to "home" image if key is invalid
+          style={{
+            backgroundImage: `url(${modelImages[pageKey] || modelImages["home"]})`,
+          }} // Default to "home" image if key is invalid
         />
 
         <BubbleFlow />

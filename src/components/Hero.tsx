@@ -1,9 +1,38 @@
 import { Link } from "react-router-dom";
-import Bubble from "./Bubble";
-
+import { useEffect, useState } from "react";
+import RealisticBubbleComponent from "./RealisticBubbleWidget";
 export default function Hero() {
+  const [bubbles, setBubbles] = useState<
+    Array<{ id: number; top: number; left: number }>
+  >([]);
+
+  useEffect(() => {
+    // Function to generate a new bubble
+    const generateBubble = () => {
+      const newBubble = {
+        id: Date.now(), // Unique ID for each bubble
+        top: Math.random() * 100, // Random vertical position
+        left: Math.random() * 100, // Random horizontal position
+      };
+      setBubbles((prev) => [...prev, newBubble]);
+
+      // Remove the bubble after the animation ends (e.g., 10 seconds)
+      setTimeout(() => {
+        setBubbles((prev) =>
+          prev.filter((bubble) => bubble.id !== newBubble.id),
+        );
+      }, 10000); // Adjust the timeout to match the animation duration
+    };
+
+    // Generate a new bubble every 500ms
+    const interval = setInterval(generateBubble, 500);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="bg-gradient-to-r from-blue-100 to-blue-50 py-20 relative overflow-hidden">
+    <section className="bg-gradient-to-b from-blue-200 to-blue-100 py-20 relative overflow-hidden">
       <div className="container mx-auto px-4 text-center relative z-10">
         <h1 className="text-4xl md:text-6xl font-bold text-blue-800 mb-4">
           Cleanliness, Simplified.
@@ -18,15 +47,20 @@ export default function Hero() {
           Shop Now
         </Link>
       </div>
-      {/* Bubbles */}
-      {[...Array(20)].map((_, i) => (
-        <Bubble
-          key={i}
-          size={Math.random() * 50 + 20}
-          x={Math.random() * 100}
-          y={Math.random() * 100}
-        />
+      {/* Floating Bubbles */}
+      {bubbles.map((bubble) => (
+        <div
+          key={bubble.id}
+          className="absolute animate-bubble"
+          style={{
+            top: `${bubble.top}%`,
+            left: `${bubble.left}%`,
+            transform: `translate(-50%, -50%)`, // Center the bubbles at their position
+          }}
+        >
+          <RealisticBubbleComponent />
+        </div>
       ))}
     </section>
   );
-};
+}

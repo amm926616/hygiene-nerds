@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
 
-const FloatingCart = () => {
+const FloatingCartV2 = () => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
     return (
@@ -84,4 +84,4 @@ const FloatingCart = () => {
     );
 };
 
-export default FloatingCart;
+export default FloatingCartV2;

@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import FloatingBubbles from "../components/FloatingBubbles";
 import FloatingCart from "../components/FloatingCart";
+import { ModelPage } from "../components/IntroPage";
 import ProductList from "../components/ProductList";
 import { Product } from "../types/product.dto";
-import { ModelPage } from "../components/IntroPage";
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -25,6 +26,7 @@ export default function Products() {
       <ModelPage pageKey="cart" duration={2000}>
         <ProductList products={products} />
         <FloatingCart />
+        <FloatingBubbles />
       </ModelPage>
     </div>
   );
