@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import AdminPage from "./pages/Admin";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/signin" element={<SignIn />}></Route>
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/admin" element={<AdminPage />} />
             <Route path="*" element={<h1>404 Not Found</h1>} />
           </Routes>
         </main>
