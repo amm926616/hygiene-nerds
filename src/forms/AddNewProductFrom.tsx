@@ -63,38 +63,99 @@ const ProductForm: React.FC<ProductFormProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+    <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 max-w-4xl mx-auto">
       <h2 className="text-2xl font-semibold text-blue-700 mb-6">
         {product ? "Edit Product" : "Add New Product"}
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Column 1 */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600">
+                Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-600">
+                Brand Name
+              </label>
+              <input
+                type="text"
+                name="brandName"
+                value={formData.brandName}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-600">
+                Price
+              </label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Column 2 */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600">
+                Category
+              </label>
+              <input
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-600">
+                Product Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
+                required={!product?.imagePath}
+              />
+              {previewImage && (
+                <div className="mt-4">
+                  <img
+                    src={previewImage}
+                    alt="Preview"
+                    className="h-32 object-cover rounded-lg"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Brand Name
-          </label>
-          <input
-            type="text"
-            name="brandName"
-            value={formData.brandName}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
-        </div>
-        <div>
+
+        {/* Description (full width below the columns) */}
+        <div className="mt-4">
           <label className="block text-sm font-medium text-gray-600">
             Description
           </label>
@@ -103,57 +164,13 @@ const ProductForm: React.FC<ProductFormProps> = ({
             value={formData.description}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-300 outline-none"
+            rows={4}
             required
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Price
-          </label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Category
-          </label>
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Product Image
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
-            required={!product?.imagePath}
-          />
-          {previewImage && (
-            <div className="mt-4">
-              <img
-                src={previewImage}
-                alt="Preview"
-                className="h-32 object-cover rounded-lg"
-              />
-            </div>
-          )}
-        </div>
-        <div className="flex justify-end space-x-4">
+
+        {/* Buttons */}
+        <div className="flex justify-end space-x-4 mt-6">
           <button
             type="button"
             onClick={onCancel}

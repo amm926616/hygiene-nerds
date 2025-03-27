@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import RealisticBubbleComponent from "./RealisticBubbleWidget";
 
 export default function Hero() {
@@ -10,23 +10,25 @@ export default function Hero() {
       left: number;
       size: number;
       duration: number;
+      opacity: number;
     }>
   >([]);
-  const MAX_BUBBLES = 50;
+  const bubbleId = useRef(0); // Using ref to maintain unique IDs
+  const MAX_BUBBLES = 40; // Reduced slightly for better performance
 
   useEffect(() => {
-    let bubbleId = 0;
     const timeouts: NodeJS.Timeout[] = [];
 
     const generateBubble = () => {
       if (bubbles.length >= MAX_BUBBLES) return;
 
       const newBubble = {
-        id: bubbleId++,
-        top: Math.random() * 100,
+        id: bubbleId.current++,
+        top: 100 + Math.random() * 10, // Start below viewport
         left: Math.random() * 100,
-        size: Math.random() * 20 + 10, // Random size between 10 and 30
-        duration: Math.random() * 5000 + 5000, // Random duration between 5s and 10s
+        size: Math.random() * 30 + 15, // Slightly larger bubbles (15-45px)
+        duration: Math.random() * 8000 + 7000, // Longer duration (7-15s)
+        opacity: Math.random() * 0.5 + 0.3, // 30-80% opacity
       };
 
       setBubbles((prev) => [...prev, newBubble]);
@@ -40,36 +42,60 @@ export default function Hero() {
       timeouts.push(timeoutId);
     };
 
-    const interval = setInterval(generateBubble, 500);
+    // Initial bubble burst
+    const initialBurst = setTimeout(() => {
+      Array(15)
+        .fill(0)
+        .forEach(() => generateBubble());
+    }, 100);
+
+    const interval = setInterval(generateBubble, 600); // Slower generation
 
     return () => {
       clearInterval(interval);
+      clearTimeout(initialBurst);
       timeouts.forEach(clearTimeout);
     };
   }, [bubbles]);
 
   return (
-    <section className="bg-gradient-to-b from-blue-200 to-blue-100 py-20 relative overflow-hidden">
-      <div className="container mx-auto px-4 text-center relative z-10">
-        <h1 className="text-4xl md:text-6xl font-bold text-blue-800 mb-4">
-          Cleanliness, Simplified.
-        </h1>
-        <p className="text-lg text-gray-700 mb-8">
-          Discover high-quality hygiene products for a healthier life.
-        </p>
-        <Link
-          to="/products"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-full"
-        >
-          Shop Now
-        </Link>
+    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-100 to-blue-200 overflow-hidden">
+      {/* Background canvas effect */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBvcGFjaXR5PSIwLjEiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMyIgZmlsbD0iIzAwNzBmZiIvPjwvZz48L3N2Zz4=')]" />
+      </div>
+
+      <div className="container mx-auto px-4 py-20 text-center relative z-10">
+        <div className="max-w-3xl mx-auto backdrop-blur-sm bg-white/10 p-8 rounded-3xl shadow-lg">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-blue-900 mb-6 leading-tight">
+            Cleanliness, <span className="text-blue-600">Simplified</span>.
+          </h1>
+          <p className="text-xl md:text-2xl text-blue-800 mb-10 opacity-90 leading-relaxed">
+            Discover premium hygiene products designed for your health and
+            comfort.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              to="/products"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            >
+              Shop Now
+            </Link>
+            <Link
+              to="/about"
+              className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold py-4 px-8 rounded-full shadow-sm hover:shadow-md transition-all duration-300"
+            >
+              Learn More
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* Floating Bubbles */}
       {bubbles.map((bubble) => (
         <div
           key={bubble.id}
-          className="absolute animate-bubble"
+          className="absolute pointer-events-none animate-bubble"
           style={{
             top: `${bubble.top}%`,
             left: `${bubble.left}%`,
@@ -77,12 +103,38 @@ export default function Hero() {
             width: `${bubble.size}px`,
             height: `${bubble.size}px`,
             animationDuration: `${bubble.duration}ms`,
+            filter: `blur(${Math.random() * 2}px)`,
+            opacity: bubble.opacity,
+            zIndex: Math.floor(bubble.size / 15), // Larger bubbles appear behind
           }}
           aria-hidden="true"
         >
           <RealisticBubbleComponent />
         </div>
       ))}
+
+      {/* Animation keyframes */}
+      <style jsx global>{`
+        @keyframes bubble {
+          0% {
+            transform: translate(-50%, -50%);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 0.8;
+          }
+          100% {
+            transform: translate(-50%, -50%) translateY(-120vh);
+            opacity: 0;
+          }
+        }
+        .animate-bubble {
+          animation: bubble linear forwards;
+        }
+      `}</style>
     </section>
   );
 }

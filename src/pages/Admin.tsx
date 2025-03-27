@@ -1,17 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ProductForm from "../forms/AddNewProductFrom";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  brandName: string;
-  price: number;
-  category: string;
-  imageFile: File | null;
-  imagePath: string | null;
-}
+import { Product } from "../types/Product";
 
 export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);

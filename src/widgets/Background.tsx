@@ -17,7 +17,7 @@ const ProductBackground = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-r from-blue-100 to-blue-200 border border-blue-300 p-6 rounded-2xl shadow-lg w-full overflow-hidden relative">
+    <div className="bg-gradient-to-br from-blue-100 to-blue-200 border border-blue-200/50 p-8 rounded-3xl shadow-xl w-full overflow-hidden relative backdrop-blur-sm">
       {/* Floating Bubbles */}
       {bubbles.map((bubble) => (
         <div
