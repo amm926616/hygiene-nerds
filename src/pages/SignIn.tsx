@@ -13,9 +13,9 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-tl from-blue-300 to-blue-200 flex items-center justify-center relative overflow-hidden">
       {/* Floating Bubbles */}
-      {Array.from({ length: 8 }).map((_, index) => (
+      {Array.from({ length: 20 }).map((_, index) => (
         <div
           key={index}
           className="absolute -bottom-10" // Start bubbles below the container

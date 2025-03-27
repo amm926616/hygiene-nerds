@@ -1,36 +1,103 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import ProductForm from "../forms/AddNewProductFrom";
 
 interface Product {
   id: number;
   name: string;
   description: string;
+  brandName: string;
   price: number;
-  imageUrl: string;
+  category: string;
+  imageFile: File | null;
+  imagePath: string | null;
 }
 
 export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isAdding, setIsAdding] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // Fetch products from the server on component mount
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/products");
+        setProducts(response.data); // Assuming the API returns an array of products
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setMessage("Failed to fetch products. Please try again.");
+      }
+    };
+
+    fetchProducts();
+  }, []); // Empty dependency array to run this effect only once
 
   // Add or Update Product
-  const handleSaveProduct = (product: Product) => {
-    if (editingProduct) {
-      // Update existing product
-      setProducts((prev) =>
-        prev.map((p) => (p.id === product.id ? product : p)),
-      );
-      setEditingProduct(null);
-    } else {
-      // Add new product
-      setProducts((prev) => [...prev, { ...product, id: Date.now() }]);
+  const handleSaveProduct = async (product: Product) => {
+    if (!product.imageFile) {
+      setMessage("Please select an image.");
+      return;
     }
-    setIsAdding(false);
+
+    const formData = new FormData();
+    formData.append("name", product.name);
+    formData.append("description", product.description);
+    formData.append("brand_name", product.brandName);
+    formData.append("price", product.price.toString());
+    formData.append("category", product.category);
+    formData.append("imageFile", product.imageFile);
+
+    try {
+      const endpoint = editingProduct
+        ? `http://localhost:8080/products/update/${editingProduct.id}`
+        : "http://localhost:8080/products/add-new-product";
+
+      const response = await axios.post(endpoint, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (editingProduct) {
+        // Update existing product
+        setProducts((prev) =>
+          prev.map((p) =>
+            p.id === product.id
+              ? { ...product, imagePath: response.data.imagePath }
+              : p,
+          ),
+        );
+      } else {
+        // Add new product
+        setProducts((prev) => [
+          ...prev,
+          {
+            ...product,
+            id: Date.now(),
+            imagePath: response.data.imagePath,
+          },
+        ]);
+      }
+
+      setMessage(response.data.message || "Operation successful");
+      setEditingProduct(null);
+      setIsAdding(false);
+    } catch (error) {
+      console.error("Error:", error);
+      setMessage("Operation failed. Please try again.");
+    }
   };
 
   // Delete Product
-  const handleDeleteProduct = (id: number) => {
-    setProducts((prev) => prev.filter((product) => product.id !== id));
+  const handleDeleteProduct = async (id: number) => {
+    try {
+      await axios.delete(`http://localhost:8080/products/delete/${id}`);
+      setProducts((prev) => prev.filter((product) => product.id !== id));
+      setMessage("Product deleted successfully");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      setMessage("Failed to delete product");
+    }
   };
 
   return (
@@ -40,12 +107,20 @@ export default function AdminPage() {
           Admin Dashboard
         </h1>
 
+        {/* Status Message */}
+        {message && (
+          <div className="mb-4 p-4 bg-blue-100 text-blue-800 rounded-lg text-center">
+            {message}
+          </div>
+        )}
+
         {/* Add Product Button */}
         <div className="text-center mb-8">
           <button
             onClick={() => {
               setIsAdding(true);
               setEditingProduct(null);
+              setMessage("");
             }}
             className="bg-blue-200 text-blue-800 py-2 px-6 rounded-full font-semibold hover:bg-blue-300 transition-all duration-300"
           >
@@ -56,11 +131,11 @@ export default function AdminPage() {
         {/* Product Form (Add/Edit) */}
         {(isAdding || editingProduct) && (
           <ProductForm
-            product={editingProduct}
             onSave={handleSaveProduct}
             onCancel={() => {
               setIsAdding(false);
               setEditingProduct(null);
+              setMessage("");
             }}
           />
         )}
@@ -78,16 +153,21 @@ export default function AdminPage() {
                   className="flex flex-col md:flex-row justify-between items-center border-b border-blue-100 pb-4"
                 >
                   <div className="flex items-center space-x-4">
-                    <img
-                      src={product.imageUrl}
-                      alt={product.name}
-                      className="w-16 h-16 object-cover rounded-lg"
-                    />
+                    {product.imagePath && (
+                      <img
+                        src={`http://localhost:8080/products/image/${product.imagePath}`}
+                        alt={product.name}
+                        className="w-16 h-16 object-cover rounded-lg"
+                      />
+                    )}
                     <div>
                       <h3 className="text-xl font-semibold text-blue-700">
                         {product.name}
                       </h3>
                       <p className="text-gray-600">{product.description}</p>
+                      <p className="text-gray-600">
+                        Category: {product.category}
+                      </p>
                       <p className="text-lg font-bold text-blue-700">
                         ${product.price.toFixed(2)}
                       </p>
@@ -95,7 +175,10 @@ export default function AdminPage() {
                   </div>
                   <div className="flex space-x-4 mt-4 md:mt-0">
                     <button
-                      onClick={() => setEditingProduct(product)}
+                      onClick={() => {
+                        setEditingProduct(product);
+                        setMessage("");
+                      }}
                       className="bg-blue-100 text-blue-700 py-1 px-4 rounded-full hover:bg-blue-200 transition-all duration-300"
                     >
                       Edit
@@ -118,104 +201,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
-// Product Form Component
-interface ProductFormProps {
-  product: Product | null;
-  onSave: (product: Product) => void;
-  onCancel: () => void;
-}
-
-const ProductForm: React.FC<ProductFormProps> = ({
-  product,
-  onSave,
-  onCancel,
-}) => {
-  const [name, setName] = useState(product?.name || "");
-  const [description, setDescription] = useState(product?.description || "");
-  const [price, setPrice] = useState(product?.price || 0);
-  const [imageUrl, setImageUrl] = useState(product?.imageUrl || "");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave({
-      id: product?.id || Date.now(),
-      name,
-      description,
-      price,
-      imageUrl,
-    });
-  };
-
-  return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-      <h2 className="text-2xl font-semibold text-blue-700 mb-6">
-        {product ? "Edit Product" : "Add New Product"}
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Name
-          </label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Description
-          </label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-4 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Price
-          </label>
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(parseFloat(e.target.value))}
-            className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            Image URL
-          </label>
-          <input
-            type="text"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            className="w-full px-4 py-2 border border-blue-200 rounded-full focus:ring-2 focus:ring-blue-300 outline-none"
-            required
-          />
-        </div>
-        <div className="flex justify-end space-x-4">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="bg-gray-100 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-200 transition-all duration-300"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-blue-200 text-blue-800 py-2 px-6 rounded-full hover:bg-blue-300 transition-all duration-300"
-          >
-            Save
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-};

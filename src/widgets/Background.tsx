@@ -8,9 +8,9 @@ const ProductBackground = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Generate animated bubbles dynamically
-    const newBubbles = Array.from({ length: 8 }).map((_, index) => ({
+    const newBubbles = Array.from({ length: 20 }).map((_, index) => ({
       id: index,
-      left: `${Math.random() * 100}%`, // Random horizontal placement
+      left: `${Math.random() * 100}vw`, // Random horizontal placement
       animation: `floatUp ${Math.random() * 6 + 4}s ease-in-out infinite`, // Random float animation duration
     }));
     setBubbles(newBubbles);
@@ -22,7 +22,7 @@ const ProductBackground = ({ children }: { children: React.ReactNode }) => {
       {bubbles.map((bubble) => (
         <div
           key={bubble.id}
-          className="absolute -top-10" // Start bubbles above the container
+          className="absolute -bottom-10" // Start bubbles below the container
           style={{
             left: bubble.left,
             animation: bubble.animation,
@@ -31,24 +31,22 @@ const ProductBackground = ({ children }: { children: React.ReactNode }) => {
           <BubbleWidget />
         </div>
       ))}
-
       {/* Inner Content */}
       <div className="relative z-10">{children}</div>
-
       {/* Bubble Animation */}
       <style>
         {`
           @keyframes floatUp {
             0% {
-              transform: translateY(100%);
-              opacity: 0.8; /* Initial visibility */
+              transform: translateY(0); /* Start from the bottom */
+              opacity: 0.8;
             }
             50% {
               opacity: 1;
             }
             100% {
-              transform: translateY(-100%);
-              opacity: 0.3; /* Fade out at the top */
+              transform: translateY(-100vh); /* Move to the top of the screen */
+              opacity: 0.3;
             }
           }
         `}

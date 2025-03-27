@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
-import { BubbleFlow } from "./BubbleFlow";
+import { useEffect, useState } from "react";
 
 const modelImages: Record<string, string> = {
   products: "src/assets/models/waiting.jpg",
@@ -10,41 +9,45 @@ const modelImages: Record<string, string> = {
 };
 
 interface ModelPageProps {
-  pageKey: string; // Key to determine which image to show
-  duration?: number; // Default is 5000ms (5 seconds)
+  pageKey: string;
+  duration?: number;
   children?: React.ReactNode;
+  onClose?: () => void; // Callback when ModelPage disappears
 }
 
 const intro_title = "Hygiene Nerds Market Place";
 const intro_content =
-  "The place for all hygiene products with beautiful market place";
+  "The place for all hygiene products with a beautiful marketplace";
 
-export const ModelPage: React.FC<ModelPageProps> = ({
+export const ModelPage = ({
   pageKey,
   children,
   duration = 1000,
-}) => {
+  onClose,
+}: ModelPageProps) => {
+  const [isVisible, setIsVisible] = useState(true);
+
   useEffect(() => {
-    // Disable scrolling completely (prevent scrollbar pop-up)
-    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden"; // Disable scrolling
 
     const timer = setTimeout(() => {
-      // Restore scrolling **before** the fade-out transition
-      document.documentElement.style.overflow = "";
-      document.getElementById("model-content")?.classList.add("hidden");
-    }, duration - 100); // Adjust timing to ensure smooth fade-out
+      setIsVisible(false);
+      document.documentElement.style.overflow = ""; // Restore scrolling
+      onClose?.(); // Call parent function if provided
+    }, duration);
 
     return () => {
       clearTimeout(timer);
       document.documentElement.style.overflow = ""; // Ensure scrolling is restored if unmounted early
     };
-  }, [duration]);
+  }, [duration, onClose]);
+
+  if (!isVisible) return <>{children}</>; // If hidden, show main content
 
   return (
     <div className="relative">
       {/* Model Page */}
       <motion.div
-        id="model-content"
         className="fixed inset-0 flex items-center justify-center bg-black z-50"
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
@@ -54,10 +57,8 @@ export const ModelPage: React.FC<ModelPageProps> = ({
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: `url(${modelImages[pageKey] || modelImages["home"]})`,
-          }} // Default to "home" image if key is invalid
+          }}
         />
-
-        <BubbleFlow />
 
         {/* Overlay Text */}
         <div className="absolute text-white text-center">
@@ -65,9 +66,6 @@ export const ModelPage: React.FC<ModelPageProps> = ({
           <p className="text-lg md:text-xl mt-2 opacity-70">{intro_content}</p>
         </div>
       </motion.div>
-
-      {/* Main Page Content */}
-      <div>{children}</div>
     </div>
   );
 };

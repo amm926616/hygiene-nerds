@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
-import { Product } from "../types/product.dto";
+import { ProductDto } from "../types/product.dto";
 import ProductCard from "./ProductCard";
 import ProductBackground from "../widgets/Background"; // Assuming you have a styled background widget
 import SearchAndFilter from "./SearchBarComponent";
 
 interface ProductListProps {
-  products: Product[];
+  products: ProductDto[];
 }
 
 const ProductList = ({ products }: ProductListProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [activeCategory, setActiveCategory] = useState("All");
+
+  console.log("After putting inside productdto: ", products);
 
   const productCategories = [
     "All",
@@ -55,7 +57,7 @@ const ProductList = ({ products }: ProductListProps) => {
   return (
     <div className="container mx-auto p-6">
       {/* Search and Filter Box with Aesthetic Background */}
-      <ProductBackground className="mb-8">
+      <ProductBackground>
         <SearchAndFilter
           searchQuery={searchQuery}
           handleSearch={handleSearch}
@@ -71,11 +73,7 @@ const ProductList = ({ products }: ProductListProps) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              className="rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" // Add rounded corners and subtle shadows
-            />
+            <ProductCard key={product.id} product={product} />
           ))
         ) : (
           <p className="text-center text-gray-500 col-span-full">

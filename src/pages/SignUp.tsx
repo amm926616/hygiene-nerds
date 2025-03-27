@@ -14,12 +14,12 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-tl from-blue-300 to-blue-200 flex items-center justify-center relative overflow-hidden">
       {/* Floating Bubbles */}
-      {Array.from({ length: 8 }).map((_, index) => (
+      {Array.from({ length: 20 }).map((_, index) => (
         <div
           key={index}
-          className="absolute -top-10"
+          className="absolute -bottom-10" // Start bubbles below the container
           style={{
             left: `${Math.random() * 100}%`,
             animation: `floatUp ${Math.random() * 6 + 4}s ease-in-out infinite`,
@@ -106,14 +106,14 @@ const SignUp = () => {
         {`
           @keyframes floatUp {
             0% {
-              transform: translateY(100%);
+              transform: translateY(0);
               opacity: 0.8;
             }
             50% {
               opacity: 1;
             }
             100% {
-              transform: translateY(-100%);
+              transform: translateY(-100vh); /* Moves bubbles fully out of viewport */
               opacity: 0.3;
             }
           }

@@ -1,35 +1,52 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import RealisticBubbleComponent from "./RealisticBubbleWidget";
+
 export default function Hero() {
   const [bubbles, setBubbles] = useState<
-    Array<{ id: number; top: number; left: number }>
+    Array<{
+      id: number;
+      top: number;
+      left: number;
+      size: number;
+      duration: number;
+    }>
   >([]);
+  const MAX_BUBBLES = 50;
 
   useEffect(() => {
-    // Function to generate a new bubble
+    let bubbleId = 0;
+    const timeouts: NodeJS.Timeout[] = [];
+
     const generateBubble = () => {
+      if (bubbles.length >= MAX_BUBBLES) return;
+
       const newBubble = {
-        id: Date.now(), // Unique ID for each bubble
-        top: Math.random() * 100, // Random vertical position
-        left: Math.random() * 100, // Random horizontal position
+        id: bubbleId++,
+        top: Math.random() * 100,
+        left: Math.random() * 100,
+        size: Math.random() * 20 + 10, // Random size between 10 and 30
+        duration: Math.random() * 5000 + 5000, // Random duration between 5s and 10s
       };
+
       setBubbles((prev) => [...prev, newBubble]);
 
-      // Remove the bubble after the animation ends (e.g., 10 seconds)
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         setBubbles((prev) =>
           prev.filter((bubble) => bubble.id !== newBubble.id),
         );
-      }, 10000); // Adjust the timeout to match the animation duration
+      }, newBubble.duration);
+
+      timeouts.push(timeoutId);
     };
 
-    // Generate a new bubble every 500ms
     const interval = setInterval(generateBubble, 500);
 
-    // Cleanup interval on unmount
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      clearInterval(interval);
+      timeouts.forEach(clearTimeout);
+    };
+  }, [bubbles]);
 
   return (
     <section className="bg-gradient-to-b from-blue-200 to-blue-100 py-20 relative overflow-hidden">
@@ -47,6 +64,7 @@ export default function Hero() {
           Shop Now
         </Link>
       </div>
+
       {/* Floating Bubbles */}
       {bubbles.map((bubble) => (
         <div
@@ -55,8 +73,12 @@ export default function Hero() {
           style={{
             top: `${bubble.top}%`,
             left: `${bubble.left}%`,
-            transform: `translate(-50%, -50%)`, // Center the bubbles at their position
+            transform: `translate(-50%, -50%)`,
+            width: `${bubble.size}px`,
+            height: `${bubble.size}px`,
+            animationDuration: `${bubble.duration}ms`,
           }}
+          aria-hidden="true"
         >
           <RealisticBubbleComponent />
         </div>

@@ -1,8 +1,10 @@
-export interface Product {
+export interface ProductDto {
   id: number;
   name: string;
   description: string;
+  brand_name: string;
   price: number;
-  imageUrl: string;
+  image_url: string;
   category: string;
+  stock: number;
 }

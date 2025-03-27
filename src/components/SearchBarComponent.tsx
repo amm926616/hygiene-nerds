@@ -19,7 +19,7 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
   return (
     <>
       {/* Heading */}
-      <h2 className="text-4xl font-bold mb-8 text-center text-blue-700">
+      <h2 className="text-4xl font-bold mb-8 text-center text-gray-500">
         Explore Our Products
       </h2>
 
