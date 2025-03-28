@@ -23,7 +23,7 @@ export default function FeaturedProducts() {
         "Keep your hands clean and germ-free with our highly effective formula.",
       price: 5.99,
       discount: 10, // 10% off
-      imageUrl: "http://localhost:8080/products/image/featured.jpg",
+      imageUrl: "http://localhost:8080/products/image/soap.jpg",
     },
     {
       id: 2,
@@ -31,7 +31,7 @@ export default function FeaturedProducts() {
       description:
         "Breathable, reusable masks with adjustable ear loops for all-day comfort.",
       price: 10.99,
-      imageUrl: "http://localhost:8080/products/image/breasts.jpg",
+      imageUrl: "http://localhost:8080/products/image/shampoo.jpg",
     },
     {
       id: 3,
@@ -39,7 +39,7 @@ export default function FeaturedProducts() {
       description: "Kills 99.9% of bacteria and viruses on surfaces.",
       price: 7.99,
       discount: 15, // 15% off
-      imageUrl: "http://localhost:8080/products/image/body.jpg",
+      imageUrl: "http://localhost:8080/products/image/conditioner.jpg",
     },
   ];
 

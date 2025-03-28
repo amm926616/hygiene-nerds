@@ -15,13 +15,13 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             <Link
-              to="/products"
+              to="/products/#"
               className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 rounded-lg hover:bg-blue-50/50"
             >
               Products
             </Link>
             <Link
-              to="/about"
+              to="/about/#"
               className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 rounded-lg hover:bg-blue-50/50"
             >
               About
@@ -34,7 +34,7 @@ export default function Header() {
             </Link>
             <div className="h-6 w-px bg-gray-200 mx-2"></div>
             <Link
-              to="/cart"
+              to="/checkout"
               className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 rounded-lg hover:bg-blue-50/50 flex items-center space-x-1"
             >
               <svg
