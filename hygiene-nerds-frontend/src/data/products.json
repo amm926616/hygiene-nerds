@@ -1,0 +1,352 @@
+[
+  {
+    "name": "Hand Sanitizer",
+    "description": "Effective hand sanitizer.",
+    "price": 5.99,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Personal Hygiene"
+  },
+  {
+    "name": "Face Masks",
+    "description": "Comfortable face masks.",
+    "price": 10.99,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Personal Hygiene"
+  },
+  {
+    "name": "Disinfectant Wipes",
+    "description": "Multi-surface wipes.",
+    "price": 7.99,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Soap",
+    "description": "Gentle on skin.",
+    "price": 3.99,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Personal Hygiene"
+  },
+  {
+    "name": "Toothpaste",
+    "description": "Fresh breath.",
+    "price": 4.5,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Oral Care"
+  },
+  {
+    "name": "Shampoo",
+    "description": "Healthy hair.",
+    "price": 8.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Hair Care"
+  },
+  {
+    "name": "Moisturizer",
+    "description": "Hydrating skin care product.",
+    "price": 12.99,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Skin Care"
+  },
+  {
+    "name": "Floor Cleaner",
+    "description": "Effective floor cleaning solution.",
+    "price": 6.99,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Glass Cleaner",
+    "description": "Streak-free glass cleaning spray.",
+    "price": 4.99,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Sunscreen",
+    "description": "Protects skin from UV rays.",
+    "price": 9.99,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Skin Care"
+  },
+  {
+    "name": "Body Lotion",
+    "description": "Keeps skin soft and smooth.",
+    "price": 7.5,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Skin Care"
+  },
+  {
+    "name": "Dish Soap",
+    "description": "Cuts through grease effectively.",
+    "price": 3.5,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Conditioner",
+    "description": "For smooth and manageable hair.",
+    "price": 8.5,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Hair Care"
+  },
+  {
+    "name": "Mouthwash",
+    "description": "Kills germs, freshens breath.",
+    "price": 5.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Oral Care"
+  },
+  {
+    "name": "Toilet Bowl Cleaner",
+    "description": "Keeps toilet bowls clean and fresh.",
+    "price": 4.75,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Hair Spray",
+    "description": "Provides a strong hold for hairstyles.",
+    "price": 6.25,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Hair Care"
+  },
+  {
+    "name": "Floss",
+    "description": "Removes plaque between teeth.",
+    "price": 2.75,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Oral Care"
+  },
+  {
+    "name": "Hand Cream",
+    "description": "Moisturizes and repairs dry hands.",
+    "price": 6.5,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Skin Care"
+  },
+  {
+    "name": "Bamboo Toothbrush",
+    "description": "Eco-friendly oral care option.",
+    "price": 5.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Oral Care"
+  },
+  {
+    "name": "Charcoal Toothpaste",
+    "description": "Natural teeth whitening.",
+    "price": 6.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Oral Care"
+  },
+  {
+    "name": "Toothbrush Sterilizer",
+    "description": "Keeps toothbrushes clean.",
+    "price": 10.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Oral Care"
+  },
+  {
+    "name": "Deodorant",
+    "description": "Natural odor protection.",
+    "price": 4.5,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Personal Hygiene"
+  },
+  {
+    "name": "Shower Gel",
+    "description": "Moisturizing body wash.",
+    "price": 5.5,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Personal Hygiene"
+  },
+  {
+    "name": "Feminine Hygiene Products",
+    "description": "Variety pack for women.",
+    "price": 8.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Personal Hygiene"
+  },
+  {
+    "name": "PowerPax Toilet Disinfectant Cleaner",
+    "description": "Effective toilet cleaner.",
+    "price": 5.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Swiffer Sweeper Wet Mop Refills",
+    "description": "Easy floor cleaning.",
+    "price": 19.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Poo-Pourri Before-You-Go Toilet Spray",
+    "description": "Eliminates bathroom odors.",
+    "price": 10.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Swiffer 180 Dusters",
+    "description": "Efficient dusting tool.",
+    "price": 14.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Scotch-Brite Non-Scratch Scrub Sponges",
+    "description": "Safe for non-stick surfaces.",
+    "price": 5.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Blueland Hand Soap",
+    "description": "Eco-friendly hand soap.",
+    "price": 6.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Personal Hygiene"
+  },
+  {
+    "name": "Blueland Dishwasher Detergent",
+    "description": "Eco-friendly dishwasher detergent.",
+    "price": 10.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Blueland Toilet Bowl Cleaner",
+    "description": "Eco-friendly toilet cleaner.",
+    "price": 8.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "Blueland Laundry Detergent",
+    "description": "Eco-friendly laundry detergent.",
+    "price": 12.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "MAC Lipstick Velvet Teddy",
+    "description": "Popular lipstick shade.",
+    "price": 20.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Makeup"
+  },
+  {
+    "name": "Benefit They're Real Mascara",
+    "description": "Lengthening mascara.",
+    "price": 25.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Makeup"
+  },
+  {
+    "name": "Anastasia Beverly Hills Dipbrow Pomade",
+    "description": "Popular brow product.",
+    "price": 22.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Makeup"
+  },
+  {
+    "name": "CeraVe Moisturizing Cream",
+    "description": "Hydrating moisturizer.",
+    "price": 18.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Skin Care"
+  },
+  {
+    "name": "Essence Lash Princess Mascara",
+    "description": "Affordable mascara.",
+    "price": 5.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Makeup"
+  },
+  {
+    "name": "TruSkin Vitamin C Serum",
+    "description": "Anti-aging serum.",
+    "price": 39.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Skin Care"
+  },
+  {
+    "name": "Maybelline Instant Age Rewind Concealer",
+    "description": "Multi-use concealer.",
+    "price": 9.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Makeup"
+  },
+  {
+    "name": "Goody Ouchless Hair Ties",
+    "description": "Pain-free hair ties.",
+    "price": 4.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Hair Care"
+  },
+  {
+    "name": "Tree Hut Vitamin C Sugar Scrub",
+    "description": "Exfoliating body scrub.",
+    "price": 8.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Skin Care"
+  },
+  {
+    "name": "Neutrogena Makeup Remover Wipes",
+    "description": "Convenient makeup remover.",
+    "price": 10.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Makeup"
+  },
+  {
+    "name": "Dr. Pax Hand Wash",
+    "description": "Antibacterial hand wash.",
+    "price": 4.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Personal Hygiene"
+  },
+  {
+    "name": "PaxClean Floor Cleaner Concentrate",
+    "description": "Effective floor cleaner.",
+    "price": 8.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "SteriPax Disinfectant Spray",
+    "description": "Broad-spectrum disinfectant.",
+    "price": 6.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "SaniPax Sanitizer",
+    "description": "Effective surface sanitizer.",
+    "price": 7.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "PaxAir Air Freshener",
+    "description": "Long-lasting air freshener.",
+    "price": 5.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "House Cleaning"
+  },
+  {
+    "name": "PaxCare Hand Cream",
+    "description": "Moisturizing hand cream.",
+    "price": 6.5,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Skin Care"
+  },
+  {
+    "name": "Cutex Nail Polish Remover",
+    "description": "Effective nail polish remover.",
+    "price": 2.0,
+    "image_url": "https://placehold.co/600x400",
+    "category": "Nail Care"
+  }
+]
