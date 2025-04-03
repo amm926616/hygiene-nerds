@@ -1,8 +1,8 @@
 import { backend_image_url } from "../data/const";
 import { ProductDto } from "../types/product.dto";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCart } from "./CartContext";
+import { useCart } from "../providers/CartContext";
 
 interface ProductCardProps {
   product: ProductDto;
@@ -13,33 +13,42 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [quantityToAdd, setQuantityToAdd] = useState(1);
+  const [localStock, setLocalStock] = useState(product.stock); // Local stock state
+
   const cartItem = cartItems.find((item) => item.productId === product.id);
   const quantityInCart = cartItem?.quantity || 0;
+
+  // Reset local stock when product changes
+  useEffect(() => {
+    setLocalStock(product.stock);
+  }, [product]);
 
   const image_link =
     product.image_url === "https://placehold.co/600x400"
       ? "https://placehold.co/600x400"
       : backend_image_url + product.image_url;
 
-  const isLowStock = product.stock > 0 && product.stock <= 10;
-  const isOutOfStock = product.stock === 0;
+  const isLowStock = localStock > 0 && localStock <= 10;
+  const isOutOfStock = localStock === 0;
   const stockStatusClass = isOutOfStock
     ? "text-red-600"
     : isLowStock
       ? "text-amber-600"
       : "text-emerald-600";
 
-  const handleAddToCart = () => {
-    if (!isOutOfStock) {
+  const handleAddToCart = (qty: number = 1) => {
+    if (!isOutOfStock && localStock >= qty) {
       setIsAnimating(true);
       addToCart(
         product.id,
         product.price,
         product.name,
         product.image_url,
-        product.stock,
+        qty,
+        product.brand_name,
       );
-      product.stock -= 1;
+      setLocalStock((prev) => prev - qty); // Only update local state
     }
   };
 
@@ -112,8 +121,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
               {isOutOfStock
                 ? "Out of Stock"
                 : isLowStock
-                  ? `Only ${product.stock} left`
-                  : `${product.stock} available`}
+                  ? `Only ${localStock} left`
+                  : `${localStock} available`}
             </div>
           </div>
 
@@ -240,8 +249,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         {isOutOfStock
                           ? "Out of Stock"
                           : isLowStock
-                            ? `Only ${product.stock} left`
-                            : `${product.stock} available`}
+                            ? `Only ${localStock} left`
+                            : `${localStock} available`}
                       </div>
                     </div>
 
@@ -265,26 +274,72 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     </div>
 
                     <div className="flex items-center gap-4">
+                      {/* Quantity Input */}
+                      <div className="relative">
+                        <input
+                          type="number"
+                          value={quantityToAdd}
+                          onChange={(e) =>
+                            setQuantityToAdd(
+                              Math.max(1, parseInt(e.target.value) || 1),
+                            )
+                          }
+                          min="1"
+                          max={localStock}
+                          className="
+                            w-24 h-12 px-4
+                            border-2 border-gray-200 rounded-lg
+                            bg-white text-gray-800
+                            focus:border-blue-500 focus:ring-2 focus:ring-blue-200
+                            outline-none transition-all
+                            appearance-none [&::-webkit-inner-spin-button]:appearance-none
+                            text-center font-medium
+                          "
+                          aria-label="Quantity"
+                        />
+                      </div>
+
+                      {/* Add to Cart Button */}
                       <motion.button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleAddToCart();
+                          handleAddToCart(quantityToAdd);
                         }}
                         className={`
                           relative overflow-hidden
                           bg-gradient-to-r from-blue-600 to-blue-500
                           hover:from-blue-700 hover:to-blue-600
-                          text-white py-3 px-8 rounded-xl
+                          text-white py-3 px-6 rounded-xl
                           font-medium transition-all duration-300
-                          hover:cursor-pointer flex-1
-                          ${isOutOfStock ? "opacity-50 cursor-not-allowed bg-gray-400 from-gray-400 to-gray-500 hover:from-gray-400 hover:to-gray-500" : ""}
+                          flex-1 h-12
+                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                          disabled:opacity-70 disabled:cursor-not-allowed
+                          disabled:from-gray-400 disabled:to-gray-500
+                          shadow-md hover:shadow-lg
                         `}
-                        disabled={isOutOfStock}
-                        whileTap={!isOutOfStock ? { scale: 0.95 } : {}}
+                        disabled={isOutOfStock || localStock < quantityToAdd}
+                        whileHover={
+                          !isOutOfStock && localStock >= quantityToAdd
+                            ? { y: -2 }
+                            : {}
+                        }
+                        whileTap={
+                          !isOutOfStock && localStock >= quantityToAdd
+                            ? {
+                                scale: 0.97,
+                                boxShadow: "0px 1px 2px rgba(0,0,0,0.2)",
+                              }
+                            : {}
+                        }
+                        aria-disabled={
+                          isOutOfStock || localStock < quantityToAdd
+                        }
                       >
                         <span className="relative z-10 flex items-center justify-center gap-2">
                           {isOutOfStock ? (
                             "Out of Stock"
+                          ) : localStock < quantityToAdd ? (
+                            "Not Enough Stock"
                           ) : (
                             <>
                               <svg
@@ -299,13 +354,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
                             </>
                           )}
                         </span>
+                        {!isOutOfStock && localStock >= quantityToAdd && (
+                          <span className="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity"></span>
+                        )}
                       </motion.button>
-
-                      {quantityInCart > 0 && (
-                        <div className="text-sm bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-medium">
-                          {quantityInCart} in cart
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>

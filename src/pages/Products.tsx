@@ -1,32 +1,23 @@
 import { useEffect, useState } from "react";
 import FloatingCart from "../components/FloatingCart";
-import { ModelPage } from "../components/IntroPage";
 import ProductList from "../components/ProductList";
-import { fetchProducts } from "../service/imageupdate.service";
-import { ProductDto } from "../types/product.dto";
-import { useAuth } from "../providers/AuthProvider";
-import { Navigate } from "react-router-dom";
 import { Spinner } from "../components/SpinnerComponent";
+import { fetchProducts } from "../service/product.service";
+import { ProductDto } from "../types/product.dto";
 
 // Cache for products data
 let productsCache: ProductDto[] | null = null;
 
 export default function Products() {
-  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
-  const [showWelcome, setShowWelcome] = useState<boolean>(true);
   const [products, setProducts] = useState<ProductDto[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Check welcome status and products cache
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setShowWelcome(localStorage.getItem("hasSeenWelcome") !== "true");
-
-      if (productsCache) {
-        setProducts(productsCache);
-        setIsLoading(false);
-      }
+    if (productsCache) {
+      setProducts(productsCache);
+      setIsLoading(false);
     }
   }, []);
 
@@ -67,45 +58,8 @@ export default function Products() {
         setIsLoading(false);
       }
     };
-
-    // Only load products when we're sure about auth state
-    if (!isAuthLoading && isAuthenticated) {
-      loadProducts();
-    }
-  }, [isAuthenticated, isAuthLoading]);
-
-  const handleWelcomeClose = () => {
-    setShowWelcome(false);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("hasSeenWelcome", "true");
-    }
-  };
-
-  // Show loading state while checking auth
-  if (isAuthLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Spinner size="lg" />
-      </div>
-    );
-  }
-
-  // Redirect if not authenticated
-  if (!isAuthenticated) {
-    return <Navigate to="/auth/login" replace />;
-  }
-
-  if (showWelcome) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <ModelPage
-          pageKey="cart"
-          duration={2000}
-          onClose={handleWelcomeClose}
-        />
-      </div>
-    );
-  }
+    loadProducts();
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-8">

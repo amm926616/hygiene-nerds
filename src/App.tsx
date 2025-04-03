@@ -1,15 +1,23 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { CartProvider } from "./components/CartContext";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import "./index.css";
-import { About, CheckOutPage, Contact, Home, Products } from "./pages";
 import AdminPage from "./pages/Admin";
 import Login from "./pages/Login";
-import Playground from "./pages/Playground";
-import ProductDetails from "./pages/ProductDetails";
 import Register from "./pages/Register";
 import { AuthProvider } from "./providers/AuthProvider";
+import SpecialOffersPage from "./pages/SpecialPackagesPage";
+import ProfilePage from "./pages/Profile";
+import { HygieneLetterFeed } from "./pages/NewFeeds";
+import { ProtectedRoute } from "./providers/ProtectedRoutes";
+import Unauthorized from "./pages/Unauthorized";
+import Products from "./pages/Products";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import CheckOutPage from "./pages/CheckOutPage";
+import Playground from "./pages/Playground";
+import Home from "./pages/Home";
+import { CartProvider } from "./providers/CartContext";
 
 export default function App() {
   return (
@@ -22,20 +30,29 @@ export default function App() {
               <Routes>
                 {/* Public routes */}
                 <Route path="/" element={<Home />} />
-                <Route path="/products/" element={<Products />} />
-                <Route
-                  path="/product-details/:id"
-                  element={<ProductDetails />}
-                />
+                <Route path="/products" element={<Products />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/register" element={<Register />} />
-                <Route path="/playground" element={<Playground />} />
-
-                {/* Protected routes */}
+                <Route path="/unauthorized" element={<Unauthorized />} />
                 <Route path="/checkout" element={<CheckOutPage />} />
-                <Route path="/admin" element={<AdminPage />} />
+
+                {/* Authenticated routes (any logged-in user) */}
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route
+                    path="/special-offers"
+                    element={<SpecialOffersPage />}
+                  />
+                  <Route path="/letterfeeds" element={<HygieneLetterFeed />} />
+                </Route>
+
+                {/* Admin-only routes */}
+                <Route element={<ProtectedRoute roles={["ROLE_ADMIN"]} />}>
+                  <Route path="/admin" element={<AdminPage />} />
+                  <Route path="/playground" element={<Playground />} />
+                </Route>
 
                 {/* 404 Not Found */}
                 <Route

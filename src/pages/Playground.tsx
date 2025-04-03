@@ -1,9 +1,7 @@
-import ImageUploader from "../components/ImageUpload";
-
 export default function Playground() {
   return (
-    <div>
-      <ImageUploader />
-    </div>
+    <>
+      <p>Play ground page for admin to test.</p>
+    </>
   );
 }

@@ -1,8 +1,7 @@
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { ShoppingCart, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useCart } from "./CartContext";
-import FloatingBubbles from "./PoppingBubbles";
+import { useCart } from "../providers/CartContext";
 import { Link } from "react-router-dom";
 import { backend_image_url } from "../data/const";
 import { RightClickHint } from "./ProductCartHint";
@@ -190,15 +189,6 @@ const FloatingCart = () => {
         </motion.div>
       </motion.div>
 
-      {/* Bubble Animation */}
-      {isAnimating && (
-        <FloatingBubbles
-          count={Math.min(cartItems[cartItems.length - 1]?.quantity || 5, 15)}
-          triggerPosition={getCartPosition()}
-          onComplete={() => setIsAnimating(false)}
-        />
-      )}
-
       {/* Quick Preview Popup */}
       <AnimatePresence>
         {showQuickPreview && cartCount > 0 && (
@@ -236,7 +226,7 @@ const FloatingCart = () => {
                           : backend_image_url + item.imageUrl
                       }
                       className="w-full h-full object-cover"
-                      alt={item.name}
+                      alt={item.imageUrl}
                     />
                   </div>
                   <div className="flex-1 min-w-0">

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ProductDto } from "../types/product.dto";
+import { ProductDto, SpecialPackage } from "../types/product.dto";
 
 const API_BASE_URL = "http://localhost:8080"; // to update with backend url
 
@@ -34,3 +34,17 @@ export const sendCreateProductForm = (productForm: Product) => {
   axios.post(API_BASE_URL + "/products/add-new-product", productForm);
   return Promise.resolve();
 };
+
+export const fetchProducts = () => axios.get(API_BASE_URL + "/products");
+
+export async function fetchSpecialPackages(): Promise<SpecialPackage[]> {
+  try {
+    const response = await axios.get<SpecialPackage[]>(
+      `${API_BASE_URL}/products/special-packages`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching special packages:", error);
+    throw error;
+  }
+}

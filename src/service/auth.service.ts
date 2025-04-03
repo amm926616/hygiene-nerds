@@ -46,3 +46,10 @@ export const isAuthenticated = () => {
 export const setAuthenticated = (authenticated: boolean) => {
   localStorage.setItem("authenticated", authenticated.toString());
 };
+
+export const getUserName = () => {
+  return localStorage.getItem("username") || ""; // Default empty string if null
+};
+
+export const getUserDetails = (username: string | null) =>
+  axios.get(`${AUTH_BACKEND_URL}/user/${username}`);

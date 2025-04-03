@@ -51,12 +51,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const logout = () => {
+    // 1. Clear HTTP client state (if using axios/JWT)
     apiLogout();
+
+    // 2. Clear localStorage (token, username)
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+
+    // 3. Clear sessionStorage (roles)
+    sessionStorage.removeItem("loggedInUserRole");
+
+    // 4. Reset React state
     setIsAuthenticated(false);
     setIsAdmin(false);
     setIsCustomer(false);
     setUsername(null);
     setToken(null);
+
+    // Optional: Clear any other app-specific storage
+    localStorage.removeItem("cart");
+    sessionStorage.clear();
+
+    window.location.reload();
   };
 
   return (

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
-import { useCart } from "../components/CartContext";
+import { useCart } from "../providers/CartContext";
 import { ProductDto } from "../types/product.dto";
 import { fetchProductsByIds } from "../service/product.service";
 import { backend_image_url } from "../data/const";
@@ -398,6 +398,9 @@ export default function CheckOutPage() {
                     type="submit"
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
+                    onClick={() => {
+                      console.log("clicked on secure checkout");
+                    }}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-md font-medium mt-6 flex items-center justify-center"
                   >
                     <Shield className="mr-2" size={18} />
