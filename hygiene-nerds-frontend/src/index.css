@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@keyframes bubble-float {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -150%) scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-50%, -200%) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.animate-bubble {
+    animation: bubble-float 10s linear infinite; /* Adjust duration as needed */
+}
+
+@keyframes bubble {
+    0% {
+        transform: translate(-50%, -50%);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-50%, -50%) translateY(-120vh);
+        opacity: 0;
+    }
+}
+.animate-bubble {
+    animation: bubble linear forwards;
+}
+
+/* src/App.css */
+.App {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
