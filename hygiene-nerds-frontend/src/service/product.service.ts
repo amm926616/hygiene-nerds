@@ -21,7 +21,7 @@ export async function fetchProductsByIds(ids: number[]): Promise<ProductDto[]> {
 interface Product {
   name: string;
   description: string;
-  brand_name: string;
+  brandName: string;
   price: number;
   stock: number;
   category: string;

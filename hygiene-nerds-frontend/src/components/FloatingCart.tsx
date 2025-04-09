@@ -3,7 +3,7 @@ import { ShoppingCart, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCart } from "../providers/CartContext";
 import { Link } from "react-router-dom";
-import { backend_image_url } from "../data/const";
+import { image_backend_url } from "../data/const";
 import { RightClickHint } from "./ProductCartHint";
 import { Minus, Plus, Trash2 } from "react-feather";
 
@@ -225,7 +225,7 @@ const FloatingCart = () => {
                       src={
                         "https://placehold.co/600x400" === item.imageUrl
                           ? "https://placehold.co/600x400"
-                          : backend_image_url + item.imageUrl
+                          : image_backend_url + item.imageUrl
                       }
                       className="w-full h-full object-cover"
                       alt={item.imageUrl}
@@ -235,8 +235,8 @@ const FloatingCart = () => {
                     <h4 className="font-medium text-sm truncate">
                       {item.name}
                     </h4>
-                    {item.brand_name && (
-                      <p className="text-gray-500 text-xs">{item.brand_name}</p>
+                    {item.brandName && (
+                      <p className="text-gray-500 text-xs">{item.brandName}</p>
                     )}
                   </div>
                   <div className="text-right ml-2">

@@ -1,4 +1,4 @@
-import { backend_image_url } from "../data/const";
+import { image_backend_url } from "../data/const";
 import { ProductDto } from "../types/product.dto";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,9 +25,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
   }, [product]);
 
   const image_link =
-    product.image_url === "https://placehold.co/600x400"
+    product.imageUrl === "https://placehold.co/600x400"
       ? "https://placehold.co/600x400"
-      : backend_image_url + product.image_url;
+      : image_backend_url + product.imageUrl;
 
   const isLowStock = localStock > 0 && localStock <= 10;
   const isOutOfStock = localStock === 0;
@@ -44,9 +44,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
         product.id,
         product.price,
         product.name,
-        product.image_url,
+        product.imageUrl,
         qty,
-        product.brand_name,
+        product.brandName,
       );
       setLocalStock((prev) => prev - qty); // Only update local state
     }
@@ -99,10 +99,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
             )}
           </div>
 
-          {product.brand_name && (
+          {product.brandName && (
             <div className="flex">
               <p className="text-sm text-gray-500 mb-1 bg-blue-200 px-2.5 py-1 rounded-full font-medium">
-                {product.brand_name}
+                {product.brandName}
               </p>
             </div>
           )}
@@ -232,9 +232,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
                       <h2 className="text-3xl font-bold text-gray-900 mb-2">
                         {product.name}
                       </h2>
-                      {product.brand_name && (
+                      {product.brandName && (
                         <p className="text-blue-600 font-medium">
-                          {product.brand_name}
+                          {product.brandName}
                         </p>
                       )}
                     </div>

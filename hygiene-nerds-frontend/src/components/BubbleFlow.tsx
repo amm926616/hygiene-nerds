@@ -5,7 +5,7 @@ const bubbleCount = 10; // Number of bubbles to generate at a time
 const bubbleInterval = 1000; // Interval to add new bubbles (in milliseconds)
 
 const generateBubbles = () =>
-  Array.from({ length: bubbleCount }, (_, i) => ({
+  Array.from({ length: bubbleCount }, () => ({
     id: Math.random().toString(36).substring(7), // Unique ID for each bubble
     size: Math.random() * 40 + 10, // Random size between 10px and 50px
     left: Math.random() * 100, // Random horizontal position
@@ -13,7 +13,9 @@ const generateBubbles = () =>
   }));
 
 export const BubbleFlow: React.FC = () => {
-  const [bubbles, setBubbles] = useState<Array<{ id: string; size: number; left: number; delay: number }>>([]);
+  const [bubbles, setBubbles] = useState<
+    Array<{ id: string; size: number; left: number; delay: number }>
+  >([]);
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -32,7 +32,7 @@ export function SpecialPackageCard({ pkg }: SpecialPackageCardProps) {
         product.name,
         product.imageUrl,
         1, // quantity
-        product.brand_name,
+        product.brandName,
       );
     });
 

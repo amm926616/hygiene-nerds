@@ -7,7 +7,7 @@ const NewProductForm = () => {
     name: "",
     description: "",
     price: 0,
-    brand_name: "",
+    brandName: "",
     image: File || null, // Updated to store image file
     category: "",
   });

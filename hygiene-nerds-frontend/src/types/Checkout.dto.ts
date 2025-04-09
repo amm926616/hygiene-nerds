@@ -10,7 +10,7 @@ export interface CheckoutRequest {
   cartItems: Array<{
     productId: number;
     name: string;
-    brand_name: string;
+    brandName: string;
     imageUrl: string;
     quantity: number;
     price: number;

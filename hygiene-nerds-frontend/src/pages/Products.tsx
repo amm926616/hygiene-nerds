@@ -36,14 +36,17 @@ export default function Products() {
           throw new Error("Invalid response format");
         }
 
+        console.log("just fetched products from backend");
+        console.log(response.data);
+
         const formattedProducts: ProductDto[] = response.data.map(
-          (product: any) => ({
+          (product: ProductDto) => ({
             id: product.id,
             name: product.name,
             description: product.description,
-            brand_name: product.brandName,
+            brandName: product.brandName,
             price: product.price,
-            image_url: product.imageUrl,
+            imageUrl: product.imageUrl,
             category: product.category,
             stock: product.stock,
           }),
@@ -72,6 +75,7 @@ export default function Products() {
       ) : (
         <>
           <ProductList products={products} />
+          {console.log(products)}
           <FloatingCart />
         </>
       )}

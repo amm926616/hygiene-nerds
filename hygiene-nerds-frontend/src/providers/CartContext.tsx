@@ -12,7 +12,7 @@ interface CartItem {
   quantity: number;
   price: number;
   name: string;
-  brand_name?: string;
+  brandName?: string;
   imageUrl: string;
 }
 
@@ -23,8 +23,8 @@ interface CartContextType {
     price: number,
     name: string,
     imageUrl?: string,
-    brand_name?: string,
     qty?: number,
+    brandName?: string,
   ) => void;
   removeFromCart: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
@@ -57,7 +57,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       name: string,
       imageUrl: string,
       qty: number,
-      brand_name?: string,
+      brandName?: string,
     ) => {
       console.log(
         "Adding to cart:",
@@ -66,7 +66,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         name,
         imageUrl,
         qty,
-        brand_name,
+        brandName,
       );
       setCartItems((prevItems) => {
         const existingItem = prevItems.find(
@@ -81,7 +81,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         }
         return [
           ...prevItems,
-          { productId, quantity: qty, price, name, imageUrl, brand_name },
+          { productId, quantity: qty, price, name, imageUrl, brandName },
         ];
       });
     },

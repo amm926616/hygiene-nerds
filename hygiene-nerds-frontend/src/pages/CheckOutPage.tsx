@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useCart } from "../providers/CartContext";
 import { ProductDto } from "../types/product.dto";
 import { fetchProductsByIds } from "../service/product.service";
-import { backend_image_url } from "../data/const";
+import { image_backend_url } from "../data/const";
 import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle, CreditCard, Shield, Truck, XCircle } from "react-feather";
 import { useAuth } from "../providers/AuthProvider";
@@ -213,7 +213,7 @@ export default function CheckOutPage() {
                             src={
                               product.imageUrl.startsWith("http")
                                 ? product.imageUrl
-                                : `${backend_image_url}${product.imageUrl}`
+                                : `${image_backend_url}${product.imageUrl}`
                             }
                             alt={product.name}
                             className="w-20 h-20 object-cover rounded-lg"
@@ -227,7 +227,7 @@ export default function CheckOutPage() {
                               {product.name}
                             </h3>
                             <p className="text-gray-500 text-sm">
-                              {product.brand_name}
+                              {product.brandName}
                             </p>
                             <div className="flex items-center mt-2">
                               <div className="flex items-center mt-2 border border-gray-300 rounded-md w-fit">

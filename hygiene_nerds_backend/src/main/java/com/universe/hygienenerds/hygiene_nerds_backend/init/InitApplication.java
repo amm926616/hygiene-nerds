@@ -5,6 +5,9 @@ import com.universe.hygienenerds.hygiene_nerds_backend.dao.RoleDao;
 import com.universe.hygienenerds.hygiene_nerds_backend.dao.SpecialPackageDao;
 import com.universe.hygienenerds.hygiene_nerds_backend.dao.UserDao;
 import com.universe.hygienenerds.hygiene_nerds_backend.entity.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -12,13 +15,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class InitApplication {
+
     private final RoleDao roleDao;
     private final UserDao userDao;
     private final ProductDao productDao;
@@ -29,33 +30,72 @@ public class InitApplication {
     @Transactional
     ApplicationRunner runner() {
         return r -> {
-            createRolesAndUsers();
+            if (userDao.count() == 0) {
+                createRolesAndUsers();
+                Product toothbrush = new Product(
+                    "Toothbrush",
+                    "Soft bristle toothbrush",
+                    "Oral-B",
+                    4.00,
+                    "toothbrush.jpg",
+                    "oral-care",
+                    150
+                );
+                productDao.save(toothbrush);
 
-            Product toothbrush = new Product("Toothbrush", "Soft bristle toothbrush", "Oral-B", 4.00, "toothbrush.jpg", "oral-care", 150);
-            productDao.save(toothbrush);
+                Product mouthwash = new Product(
+                    "Mouthwash",
+                    "Antiseptic mouthwash for fresh breath",
+                    "Listerine",
+                    7.00,
+                    "mouthwash.jpg",
+                    "oral-care",
+                    100
+                );
+                productDao.save(mouthwash);
 
-            Product mouthwash = new Product("Mouthwash", "Antiseptic mouthwash for fresh breath", "Listerine", 7.00, "mouthwash.jpg", "oral-care", 100);
-            productDao.save(mouthwash);
+                Product dentalFloss = new Product(
+                    "Dental Floss",
+                    "Waxed dental floss",
+                    "Glide",
+                    3.00,
+                    "floss.jpg",
+                    "oral-care",
+                    300
+                );
+                productDao.save(dentalFloss);
 
-            Product dentalFloss = new Product("Dental Floss", "Waxed dental floss", "Glide", 3.00, "floss.jpg", "oral-care", 300);
-            productDao.save(dentalFloss);
-
-            ArrayList<Product> products = new ArrayList<>();
-            products.add(toothbrush);
-            products.add(mouthwash);
-            products.add(dentalFloss);
-            createSpecialPackage("Dental Care Package", 20, products);
-
-//            createMorePackages(mouthwash, dentalFloss);
+                ArrayList<Product> products = new ArrayList<>();
+                products.add(toothbrush);
+                products.add(mouthwash);
+                products.add(dentalFloss);
+                createSpecialPackage("Dental Care Package", 20, products);
+            }
         };
     }
 
     private void createMorePackages(Product mouthwash, Product dentalFloss) {
         // oral care package
-        Product electricToothbrush = new Product("Electric Toothbrush", "Rechargeable electric toothbrush", "Philips Sonicare", 89.99, "electric-toothbrush.jpg", "oral-care", 75);
+        Product electricToothbrush = new Product(
+            "Electric Toothbrush",
+            "Rechargeable electric toothbrush",
+            "Philips Sonicare",
+            89.99,
+            "electric-toothbrush.jpg",
+            "oral-care",
+            75
+        );
         productDao.save(electricToothbrush);
 
-        Product whiteningToothpaste = new Product("Whitening Toothpaste", "Enamel-safe whitening toothpaste", "Colgate Optic White", 8.50, "whitening-paste.jpg", "oral-care", 200);
+        Product whiteningToothpaste = new Product(
+            "Whitening Toothpaste",
+            "Enamel-safe whitening toothpaste",
+            "Colgate Optic White",
+            8.50,
+            "whitening-paste.jpg",
+            "oral-care",
+            200
+        );
         productDao.save(whiteningToothpaste);
 
         ArrayList<Product> premiumOralProducts = new ArrayList<>();
@@ -64,13 +104,17 @@ public class InitApplication {
         premiumOralProducts.add(mouthwash); // From your existing product
         premiumOralProducts.add(dentalFloss); // From your existing product
 
-        createSpecialPackage("Premium Oral Care Package", 11, premiumOralProducts);
+        createSpecialPackage(
+            "Premium Oral Care Package",
+            11,
+            premiumOralProducts
+        );
     }
 
     @Profile("dev")
     private void createRolesAndUsers() {
-       Role[] roles = createRoles(); // this creates roles
-       createUsers(roles[0], roles[1]); // this creates users
+        Role[] roles = createRoles(); // this creates roles
+        createUsers(roles[0], roles[1]); // this creates users
     }
 
     public Role[] createRoles() {
@@ -83,7 +127,7 @@ public class InitApplication {
         customerRole.setRoleName("ROLE_CUSTOMER");
         roleDao.save(customerRole);
 
-        return new Role[]{adminRole, customerRole};
+        return new Role[] { adminRole, customerRole };
     }
 
     public void createUsers(Role adminRole, Role customerRole) {
@@ -111,24 +155,64 @@ public class InitApplication {
         customer.setAddress("Apartment of hygiene lovers");
         userDao.save(customer);
     }
+
     public List<Product> createProducts() {
-        Product soap = new Product("Soap", "Soap made from natural ingredients", "dove", 10.0, "soap.jpg", "soap", 100);
+        Product soap = new Product(
+            "Soap",
+            "Soap made from natural ingredients",
+            "dove",
+            10.0,
+            "soap.jpg",
+            "soap",
+            100
+        );
         productDao.save(soap);
 
-        Product product1 = new Product("Shampoo", "Shampoo made from natural ingredients", "dove", 10.0, "shampoo.jpg", "shampoo", 100);
+        Product product1 = new Product(
+            "Shampoo",
+            "Shampoo made from natural ingredients",
+            "dove",
+            10.0,
+            "shampoo.jpg",
+            "shampoo",
+            100
+        );
         productDao.save(product1);
 
-        Product product2 = new Product("Conditioner", "Conditioner made from natural ingredients", "dove", 10.0, "conditioner.jpg", "conditioner", 100);
+        Product product2 = new Product(
+            "Conditioner",
+            "Conditioner made from natural ingredients",
+            "dove",
+            10.0,
+            "conditioner.jpg",
+            "conditioner",
+            100
+        );
         productDao.save(product2);
 
         return List.of(soap, product1, product2);
     }
 
-    public void createSpecialPackage(String serviceName, Integer duration, List<Product> products) {
-        LocalDateTime expirationDate = LocalDateTime.of(2025, 12, 31, 23, 59, 59); // Expires on Dec 31, 2025, at 23:59:59
+    public void createSpecialPackage(
+        String serviceName,
+        Integer duration,
+        List<Product> products
+    ) {
+        LocalDateTime expirationDate = LocalDateTime.of(
+            2025,
+            12,
+            31,
+            23,
+            59,
+            59
+        ); // Expires on Dec 31, 2025, at 23:59:59
 
         // Creating a SpecialService object
-        SpecialPackages specialPackages = new SpecialPackages(serviceName, duration, expirationDate);
+        SpecialPackages specialPackages = new SpecialPackages(
+            serviceName,
+            duration,
+            expirationDate
+        );
 
         for (Product product : products) {
             specialPackages.addProduct(product);
@@ -137,10 +221,7 @@ public class InitApplication {
         specialPackageDao.save(specialPackages);
     }
 }
-
-
 // for special products
-
 /* Product toothpaste = new Product("Toothpaste", "Fluoride toothpaste for daily use", "Colgate", 5.50, "toothpaste.jpg", "oral-care", 200);
 productDao.save(toothpaste);
 
