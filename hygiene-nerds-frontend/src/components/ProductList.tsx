@@ -5,16 +5,33 @@ import SearchAndFilter from "./SearchBarComponent";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductBackground from "../backgrounds/Background";
 
+//   datatypes in product.dto.ts
+//   id: number;
+//   name: string;
+//   description: string;
+//   brandName: string;
+//   price: number;
+//   imageUrl: string;
+//   category: string;
+//   stock: number;
+
 interface ProductListProps {
   products: ProductDto[];
 }
 
-type SortOption = "default" | "price-low" | "price-high" | "newest" | "stock";
+// Consider an enum for better autocompletion and type safety
+enum SortOption {
+  DEFAULT = "default",
+  PRICE_LOW = "price-low",
+  PRICE_HIGH = "price-high",
+  NEWEST = "newest",
+  STOCK = "stock",
+}
 
 const ProductList = ({ products }: ProductListProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
-  const [sortOption, setSortOption] = useState<SortOption>("default");
+  const [sortOption, setSortOption] = useState<SortOption>(SortOption.DEFAULT);
   const [showOutOfStock, setShowOutOfStock] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,36 +47,42 @@ const ProductList = ({ products }: ProductListProps) => {
 
     // Apply category filter
     if (activeCategory !== "All") {
-      result = result.filter((product) => product.category === activeCategory);
+      result = result.filter((product) => product?.category === activeCategory);
     }
 
     // Apply search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      result = result.filter(
-        (product) =>
-          product.name.toLowerCase().includes(query) ||
-          product.description.toLowerCase().includes(query) ||
-          product.category.toLowerCase().includes(query) ||
-          product.brand_name.toLowerCase().includes(query),
-      );
+      result = result.filter((product) => {
+        const name = product?.name?.toLowerCase() || "";
+        const description = product?.description?.toLowerCase() || "";
+        const category = product?.category?.toLowerCase() || "";
+        const brandName = product?.brandName?.toLowerCase() || "";
+
+        return (
+          name.includes(query) ||
+          description.includes(query) ||
+          category.includes(query) ||
+          brandName.includes(query)
+        );
+      });
     }
 
     // Filter out-of-stock if not showing them
     if (!showOutOfStock) {
-      result = result.filter((product) => product.stock > 0);
+      result = result.filter((product) => (product?.stock || 0) > 0);
     }
 
     // Apply sorting
     switch (sortOption) {
       case "price-low":
-        return result.sort((a, b) => a.price - b.price);
+        return result.sort((a, b) => (a?.price || 0) - (b?.price || 0));
       case "price-high":
-        return result.sort((a, b) => b.price - a.price);
+        return result.sort((a, b) => (b?.price || 0) - (a?.price || 0));
       case "newest":
-        return result.sort((a, b) => (b.id || 0) - (a.id || 0)); // Assuming higher ID means newer
+        return result.sort((a, b) => (b?.id || 0) - (a?.id || 0));
       case "stock":
-        return result.sort((a, b) => b.stock - a.stock);
+        return result.sort((a, b) => (b?.stock || 0) - (a?.stock || 0));
       default:
         return result;
     }
@@ -123,12 +146,17 @@ const ProductList = ({ products }: ProductListProps) => {
                       handleSortChange(e.target.value as SortOption)
                     }
                     className="rounded-lg border border-gray-300 px-3 py-1 text-sm"
+                    aria-label="Sort products by"
                   >
-                    <option value="default">Default</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="newest">Newest</option>
-                    <option value="stock">Stock Quantity</option>
+                    <option value={SortOption.DEFAULT}>Default</option>
+                    <option value={SortOption.PRICE_LOW}>
+                      Price: Low to High
+                    </option>
+                    <option value={SortOption.PRICE_HIGH}>
+                      Price: High to Low
+                    </option>
+                    <option value={SortOption.NEWEST}>Newest</option>
+                    <option value={SortOption.STOCK}>Stock Quantity</option>
                   </select>
                 </label>
               </div>
