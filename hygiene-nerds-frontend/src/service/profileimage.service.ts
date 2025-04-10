@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_BACKEND_URL = "http://localhost:8080";
+const BASE_BACKEND_URL = "http://localhost:8080/api";
 
 export const uploadProfileImage = (username: string, imageFile: File) => {
   const formData = new FormData();

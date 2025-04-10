@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ProductDto, SpecialPackage } from "../types/product.dto";
 
-const API_BASE_URL = "http://localhost:8080"; // to update with backend url
+const API_BASE_URL = "http://localhost:8080/api"; // to update with backend url
 
 export async function fetchProductsByIds(ids: number[]): Promise<ProductDto[]> {
   try {

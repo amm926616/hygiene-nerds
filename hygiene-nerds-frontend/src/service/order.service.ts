@@ -33,7 +33,7 @@ export const fetchUserOrders = async (): Promise<Order[]> => {
     const username = localStorage.getItem("username");
 
     const response = await axios.get(
-      `http://localhost:8080/api/auth/user/my-orders?username=${username}`,
+      `http://localhost:8080/api/user/my-orders?username=${username}`,
     );
 
     return response.data;

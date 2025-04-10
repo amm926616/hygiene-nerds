@@ -52,4 +52,4 @@ export const getUserName = () => {
 };
 
 export const getUserDetails = (username: string | null) =>
-  axios.get(`${AUTH_BACKEND_URL}/user/${username}`);
+  axios.get(`http://localhost:8080/api/user/${username}`);
