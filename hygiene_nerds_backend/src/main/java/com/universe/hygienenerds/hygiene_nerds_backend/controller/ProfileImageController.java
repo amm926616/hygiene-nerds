@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-@RequestMapping("/users/image")
+@RequestMapping("/api/users/image")
 @RequiredArgsConstructor
 public class ProfileImageController {
     private final ImageHandlingService imageHandlingService;

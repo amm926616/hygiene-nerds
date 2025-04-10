@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -57,9 +59,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests(c -> {
             c.requestMatchers("/api/auth/**").permitAll();
             c.requestMatchers("/api/checkout/**").permitAll();
-            c.requestMatchers("/products/**").permitAll();
-            c.requestMatchers("/images/**").permitAll();
-            c.requestMatchers("/users/image/**").permitAll();
+            c.requestMatchers("/api/products/**").permitAll();
+            c.requestMatchers("/api/images/**").permitAll();
+            c.requestMatchers("/api/user/**").permitAll();
+            c.requestMatchers("/api/users/image/**").permitAll();
             c.anyRequest().authenticated();
         });
         return http.build();
