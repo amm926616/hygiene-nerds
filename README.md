@@ -46,9 +46,9 @@ This project was developed in just **2 weeks** as a learning and portfolio exper
 
 ## 📚 Tech Stack
 
-| Frontend | Backend | Database | Tools |
-|----------|---------|----------|-------|
-| React    | Spring Boot | MySQL     | Axios, Tailwind CSS, Git |
+| Frontend | Backend | Database | Tools | IDE & Text Editors |
+|----------|---------|----------|-------|---------------------|
+| React    | Spring Boot | MySQL     | Axios, Tailwind, Git, Bun | Zed, Intellij |
 
 ---
 
