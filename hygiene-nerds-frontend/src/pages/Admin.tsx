@@ -73,8 +73,8 @@ export default function AdminPage() {
       }
 
       const endpoint = editingProduct
-        ? `http://localhost:8080/products/update/${editingProduct.id}`
-        : "http://localhost:8080/products/add-new-product";
+        ? `http://localhost:8080/api/products/update/${editingProduct.id}`
+        : "http://localhost:8080/api/products/add-new-product";
 
       console.log("FormData contents before sending:");
       // Debugging: Log FormData contents
@@ -445,7 +445,7 @@ function ProductTable({
                     <div className="flex-shrink-0 h-10 w-10 relative group">
                       {/* Visible image with fallback styling */}
                       <img
-                        src={`http://localhost:8080/products/image/${product.imageUrl}`}
+                        src={`http://localhost:8080/api/products/image/${product.imageUrl}`}
                         alt={product.name}
                         className="h-10 w-10 rounded-full object-cover"
                         onError={(e) => {
