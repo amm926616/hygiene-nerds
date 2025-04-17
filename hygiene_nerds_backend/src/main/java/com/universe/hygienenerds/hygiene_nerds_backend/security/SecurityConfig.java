@@ -40,7 +40,7 @@ public class SecurityConfig {
         http.httpBasic(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(c -> {
-            CorsConfigurationSource source = new CorsConfigurationSource() {
+                CorsConfigurationSource source = new CorsConfigurationSource() {
                 @Override
                 public CorsConfiguration getCorsConfiguration(
                         HttpServletRequest request
