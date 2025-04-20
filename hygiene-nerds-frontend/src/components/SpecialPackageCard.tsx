@@ -101,7 +101,7 @@ export function SpecialPackageCard({ pkg }: SpecialPackageCardProps) {
               <li key={product.id} className="flex items-center">
                 <div className="w-10 h-10 bg-gray-100 rounded-lg mr-3 overflow-hidden">
                   <img
-                    src={`http://localhost:8080/products/image/${product.imageUrl}`}
+                    src={`http://localhost:8080/api/products/image/${product.imageUrl}`}
                     alt={product.name}
                     className="w-full h-full object-cover"
                     onError={(e) => {
