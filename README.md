@@ -1,6 +1,6 @@
 # 🧼 Hygiene Nerds - E-Commerce Web App
 
-![video demo](./resources/demo.gif)
+<img src="./resources/demo.gif" alt="video demo" style="width: 100%;" />
 
 **Hygiene Nerds** is a beautiful and functional e-commerce platform that focuses on delivering hygiene products with trust, care, and accessibility. Built with **React**, **Tailwind CSS**, and a **Spring Boot** backend, it combines modern frontend design with a solid and scalable backend architecture.
 
