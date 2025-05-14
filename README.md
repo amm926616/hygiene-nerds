@@ -4,7 +4,7 @@
 
 **Hygiene Nerds** is a beautiful and functional e-commerce platform that focuses on delivering hygiene products with trust, care, and accessibility. Built with **React**, **Tailwind CSS**, and a **Spring Boot** backend, it combines modern frontend design with a solid and scalable backend architecture.
 
-This project also serves as my personal portfolio website, showcasing my ability to build full-stack applications from scratch.
+This project also serves as my personal portfolio project, showcasing my ability to build full-stack applications from scratch.
 
 ---
 
