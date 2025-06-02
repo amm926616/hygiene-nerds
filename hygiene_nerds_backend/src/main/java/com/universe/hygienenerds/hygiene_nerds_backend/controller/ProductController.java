@@ -1,15 +1,12 @@
 package com.universe.hygienenerds.hygiene_nerds_backend.controller;
 
 import com.universe.hygienenerds.hygiene_nerds_backend.dao.ProductDao;
-import com.universe.hygienenerds.hygiene_nerds_backend.dao.SpecialPackageDao;
 import com.universe.hygienenerds.hygiene_nerds_backend.dto.ProductDto;
 import com.universe.hygienenerds.hygiene_nerds_backend.entity.Product;
 import com.universe.hygienenerds.hygiene_nerds_backend.entity.SpecialPackages;
 import com.universe.hygienenerds.hygiene_nerds_backend.service.ImageHandlingService;
 import com.universe.hygienenerds.hygiene_nerds_backend.service.ProductService;
 import java.io.IOException;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

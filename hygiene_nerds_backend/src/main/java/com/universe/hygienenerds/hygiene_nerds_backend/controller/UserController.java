@@ -2,12 +2,10 @@ package com.universe.hygienenerds.hygiene_nerds_backend.controller;
 
 import com.universe.hygienenerds.hygiene_nerds_backend.dto.OrderHistoryDto;
 import com.universe.hygienenerds.hygiene_nerds_backend.dto.UserTypes;
-import com.universe.hygienenerds.hygiene_nerds_backend.entity.User;
 import com.universe.hygienenerds.hygiene_nerds_backend.service.CheckoutService;
 import com.universe.hygienenerds.hygiene_nerds_backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

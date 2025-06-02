@@ -1,4 +1,4 @@
-//package com.universe.hygienenerds.hygiene_nerds_backend.init;
+package com.universe.hygienenerds.hygiene_nerds_backend.init;//package com.universe.hygienenerds.hygiene_nerds_backend.init;
 //
 //import com.universe.hygienenerds.hygiene_nerds_backend.dao.ProductDao;
 //import com.universe.hygienenerds.hygiene_nerds_backend.entity.Product;
