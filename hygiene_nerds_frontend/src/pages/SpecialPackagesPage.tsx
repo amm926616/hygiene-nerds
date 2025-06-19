@@ -5,8 +5,8 @@ import { SpecialPackageCard } from "../components/SpecialPackageCard";
 import { SpecialPackage } from "../types/product.dto";
 import { fetchSpecialPackages } from "../service/product.service";
 import { Link } from "react-router-dom";
-import { LoadingSpinner } from "../components/LoadingSpinner";
-import FloatingCart from "../components/FloatingCart";
+import { LoadingSpinner } from "../components/LoadingSpinnerComponent";
+import FloatingCart from "../components/FloatingCardComponent";
 
 export default function SpecialPackagesPage() {
   const [packages, setPackages] = useState<SpecialPackage[]>([]);

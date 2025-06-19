@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import FloatingCart from "../components/FloatingCart";
+import FloatingCart from "../components/FloatingCardComponent";
 import ProductList from "../components/ProductList";
 import { Spinner } from "../components/SpinnerComponent";
 import { fetchProducts } from "../service/product.service";

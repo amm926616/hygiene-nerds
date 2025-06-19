@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { ProductDto } from "../types/product.dto";
-import ProductCard from "./ProductCard";
+import ProductCard from "./ProductCardComponent";
 import SearchAndFilter from "./SearchBarComponent";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductBackground from "../backgrounds/Background";

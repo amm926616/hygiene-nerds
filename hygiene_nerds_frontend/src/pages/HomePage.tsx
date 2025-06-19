@@ -1,6 +1,6 @@
-import FeaturedProducts from "../components/FeaturedProducts";
+import FeaturedProducts from "../components/FeaturedProductsComponent";
 import { GetItFrom } from "../components/GetItOnComponent";
-import Hero from "../components/Hero";
+import Hero from "../components/HeroComponent";
 import Services from "../components/ServicesComponent";
 
 export default function HomePage() {
