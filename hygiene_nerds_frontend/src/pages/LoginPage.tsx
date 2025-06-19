@@ -11,7 +11,7 @@ import {
   setToken,
 } from "../service/auth.service";
 
-const Login = () => {
+const LoginPage = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -198,4 +198,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

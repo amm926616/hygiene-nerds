@@ -66,16 +66,6 @@ const FloatingCart = () => {
     return () => window.removeEventListener("resize", updateConstraints);
   }, []);
 
-  // Get cart position for bubble animation
-  const getCartPosition = () => {
-    if (!cartRef.current) return { x: 0, y: 0 };
-    const rect = cartRef.current.getBoundingClientRect();
-    return {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    };
-  };
-
   // Handle cart interactions
   const handlePointerDown = (e) => {
     // Right click

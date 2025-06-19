@@ -11,7 +11,7 @@ import {
 import { OrderConfirmationDto } from "../types/OrderConfirmation.dto";
 import { fetchOrderConfirmation } from "../service/order.service";
 
-export default function OrderConfirmation() {
+export default function OrderConfirmationPage() {
   const { orderId } = useParams();
   const [order, setOrder] = useState<OrderConfirmationDto | null>(null);
   const [loading, setLoading] = useState(true);

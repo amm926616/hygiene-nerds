@@ -12,7 +12,7 @@ import {
   Briefcase,
 } from "lucide-react";
 
-export default function Contact() {
+export default function ContactPage() {
   return (
     <div className="bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto px-4 py-16 max-w-6xl">

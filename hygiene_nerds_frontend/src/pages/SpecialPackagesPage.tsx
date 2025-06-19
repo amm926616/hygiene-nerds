@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import FloatingCart from "../components/FloatingCart";
 
-export default function SpecialOffersPage() {
+export default function SpecialPackagesPage() {
   const [packages, setPackages] = useState<SpecialPackage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

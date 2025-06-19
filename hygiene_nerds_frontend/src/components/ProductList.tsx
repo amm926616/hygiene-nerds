@@ -5,16 +5,6 @@ import SearchAndFilter from "./SearchBarComponent";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductBackground from "../backgrounds/Background";
 
-//   datatypes in product.dto.ts
-//   id: number;
-//   name: string;
-//   description: string;
-//   brandName: string;
-//   price: number;
-//   imageUrl: string;
-//   category: string;
-//   stock: number;
-
 interface ProductListProps {
   products: ProductDto[];
 }

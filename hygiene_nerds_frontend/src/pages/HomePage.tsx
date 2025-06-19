@@ -3,7 +3,7 @@ import { GetItFrom } from "../components/GetItOnComponent";
 import Hero from "../components/Hero";
 import Services from "../components/ServicesComponent";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div>
       <Hero />

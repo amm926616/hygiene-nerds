@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { registerApiCall } from "../service/auth.service";
 import RealisticBubbleComponent from "../components/RealisticBubbleComponent";
 
-const Register = () => {
+const RegisterPage = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -273,4 +273,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;

@@ -16,7 +16,7 @@ import {
   getProfileImageUrl,
   uploadProfileImage,
 } from "../service/profileimage.service";
-import Login from "./Login";
+import LoginPage from "./LoginPage";
 
 type UserDto = {
   firstName: string;
@@ -87,7 +87,7 @@ const ProfilePage = () => {
     const loadProfile = async () => {
       try {
         if (!isAuthenticated || !username) {
-          return <Login />;
+          return <LoginPage />;
         }
 
         const response = await getUserDetails(username);
@@ -116,7 +116,7 @@ const ProfilePage = () => {
             "Failed to load profile",
         );
         if (!isAuthenticated) {
-          return <Login />;
+          return <LoginPage />;
         }
       } finally {
         setLoading(false);

@@ -6,7 +6,7 @@ import {
 } from "react-icons/fa";
 import { GiWaterDrop } from "react-icons/gi";
 
-export function HygieneLetterFeed() {
+export function HygieneLetterFeedPage() {
   // Sample posts data
   const posts = [
     {
