@@ -13,7 +13,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../providers/AuthProvider";
 import { useCart } from "../providers/CartContext";
 
-export default function Header() {
+export default function HeaderComponent() {
   const { cartCount } = useCart();
   const { isAuthenticated, username, logout } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -118,7 +118,7 @@ export default function Header() {
                 />
               </button>
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50 border border-slate-100 backdrop-blur-sm bg-white/90">
+                <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg py-1 z-50 border border-slate-100 backdrop-blur-sm bg-white/90">
                   <Link
                     to="/contact"
                     className="flex items-center px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 group transition-colors"

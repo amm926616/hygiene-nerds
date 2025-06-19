@@ -1,15 +1,15 @@
 import FeaturedProducts from "../components/FeaturedProductsComponent";
-import { GetItFrom } from "../components/GetItOnComponent";
-import Hero from "../components/HeroComponent";
-import Services from "../components/ServicesComponent";
+import { GetItFromComponent } from "../components/GetItOnComponent";
+import HeroComponent from "../components/HeroComponent";
+import ServicesComponent from "../components/ServicesComponent";
 
 export default function HomePage() {
   return (
     <div>
-      <Hero />
+      <HeroComponent />
       <FeaturedProducts />
-      <Services />
-      <GetItFrom />
+      <ServicesComponent />
+      <GetItFromComponent />
     </div>
   );
 }

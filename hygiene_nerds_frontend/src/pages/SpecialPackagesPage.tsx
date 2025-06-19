@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Zap, Gift } from "lucide-react";
-import { SpecialPackageCard } from "../components/SpecialPackageCard";
 import { SpecialPackage } from "../types/product.dto";
 import { fetchSpecialPackages } from "../service/product.service";
 import { Link } from "react-router-dom";
-import { LoadingSpinner } from "../components/LoadingSpinnerComponent";
+import { LoadingSpinnerComponent } from "../components/LoadingSpinnerComponent";
 import FloatingCart from "../components/FloatingCardComponent";
+import { SpecialPackageCardComponent } from "../components/SpecialPackageCardComponent";
 
 export default function SpecialPackagesPage() {
   const [packages, setPackages] = useState<SpecialPackage[]>([]);
@@ -58,7 +58,7 @@ export default function SpecialPackagesPage() {
   };
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinnerComponent />;
   }
 
   return (
@@ -83,7 +83,7 @@ export default function SpecialPackagesPage() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {packages.map((pkg) => (
-            <SpecialPackageCard
+            <SpecialPackageCardComponent
               key={pkg.id}
               pkg={pkg}
               onAddToCart={() => handleAddToCart(pkg.id)}

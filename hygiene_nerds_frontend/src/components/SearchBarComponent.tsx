@@ -9,7 +9,7 @@ interface SearchAndFilterProps {
   filterByCategory: (category: string) => void;
 }
 
-const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
+const SearchAndFilterComponent: React.FC<SearchAndFilterProps> = ({
   searchQuery,
   handleSearch,
   productCategories,
@@ -75,4 +75,4 @@ const SearchAndFilter: React.FC<SearchAndFilterProps> = ({
   );
 };
 
-export default SearchAndFilter;
+export default SearchAndFilterComponent;

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import RealisticBubbleComponent from "./RealisticBubbleComponent";
 
-export default function Hero() {
+export default function HeroComponent() {
   // Generate stable bubble positions that won't change on re-renders
   const bubbleConfigs = useMemo(
     () =>

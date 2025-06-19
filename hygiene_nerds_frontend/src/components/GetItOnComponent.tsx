@@ -1,7 +1,7 @@
 import { FaApple, FaGooglePlay, FaMobileAlt } from "react-icons/fa";
 import { MdDevices } from "react-icons/md";
 
-export function GetItFrom() {
+export function GetItFromComponent() {
   return (
     <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl shadow-lg overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">

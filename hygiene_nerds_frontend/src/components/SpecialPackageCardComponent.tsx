@@ -17,7 +17,7 @@ interface SpecialPackageCardProps {
   };
 }
 
-export function SpecialPackageCard({ pkg }: SpecialPackageCardProps) {
+export function SpecialPackageCardComponent({ pkg }: SpecialPackageCardProps) {
   const { addToCart, cartItems } = useCart();
   const [isAdding, setIsAdding] = useState(false);
 

@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff } from "react-feather";
 import RealisticBubbleComponent from "../components/RealisticBubbleComponent";
-import { MemberWelcome } from "../components/WelcomeComponent";
+import { WelcomeComponent } from "../components/WelcomeComponent";
 import {
   loginApiCall,
   setAuthenticated,
@@ -179,7 +179,7 @@ const LoginPage = () => {
 
       {/* Welcome Screen */}
       {showWelcome && (
-        <MemberWelcome
+        <WelcomeComponent
           username={formData.username}
           onClose={handleWelcomeComplete}
         />

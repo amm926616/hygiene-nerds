@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 
-export const RightClickHint = ({ show }: { show: boolean }) => {
+export const RightClickHintComponent = ({ show }: { show: boolean }) => {
   return (
     <AnimatePresence>
       {show && (

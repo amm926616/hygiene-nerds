@@ -8,7 +8,7 @@ interface ProductCardProps {
   product: ProductDto;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCardComponent = ({ product }: ProductCardProps) => {
   const { addToCart, cartItems } = useCart();
   const [isAnimating, setIsAnimating] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -370,4 +370,4 @@ const ProductCard = ({ product }: ProductCardProps) => {
   );
 };
 
-export default ProductCard;
+export default ProductCardComponent;

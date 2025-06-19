@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { ProductDto } from "../types/product.dto";
 
-const NewProductForm = () => {
+const NewProductFormComponent = () => {
   const [formData, setFormData] = useState<Omit<ProductDto, "id">>({
     name: "",
     description: "",
@@ -148,4 +148,4 @@ const NewProductForm = () => {
   );
 };
 
-export default NewProductForm;
+export default NewProductFormComponent;

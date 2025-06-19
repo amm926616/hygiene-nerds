@@ -35,7 +35,7 @@ const colorClasses: Record<SpinnerColor, string> = {
   dark: "border-t-gray-800 border-b-gray-800",
 };
 
-export const Spinner: React.FC<SpinnerProps> = ({
+export const SpinnerComponent: React.FC<SpinnerProps> = ({
   size = "md",
   color = "primary",
   className = "",
@@ -76,7 +76,7 @@ export const SpinnerWithContainer: React.FC<SpinnerWithContainerProps> = ({
         fullScreen ? "h-screen w-screen" : "w-full h-full",
       )}
     >
-      <Spinner {...spinnerProps} />
+      <SpinnerComponent {...spinnerProps} />
       {text && <span className={textClassName}>{text}</span>}
     </div>
   );

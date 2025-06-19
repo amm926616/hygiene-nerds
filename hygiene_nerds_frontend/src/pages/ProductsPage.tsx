@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import FloatingCart from "../components/FloatingCardComponent";
-import ProductList from "../components/ProductList";
-import { Spinner } from "../components/SpinnerComponent";
+import { SpinnerComponent } from "../components/SpinnerComponent";
 import { fetchProducts } from "../service/product.service";
 import { ProductDto } from "../types/product.dto";
+import ProductListComponent from "../components/ProductListComponent";
 
 // Cache for products data
 let productsCache: ProductDto[] | null = null;
@@ -68,13 +68,13 @@ export default function Products() {
     <div className="container mx-auto px-4 py-8">
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
-          <Spinner size="md" />
+          <SpinnerComponent size="md" />
         </div>
       ) : error ? (
         <div className="text-center text-red-500 py-8">{error}</div>
       ) : (
         <>
-          <ProductList products={products} />
+          <ProductListComponent products={products} />
           {console.log(products)}
           <FloatingCart />
         </>

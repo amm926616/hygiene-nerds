@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Footer from "./components/FooterComponent";
-import Header from "./components/HeaderComponent";
+import FooterComponent from "./components/FooterComponent";
+import HeaderComponent from "./components/HeaderComponent";
 import "./index.css";
 import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
@@ -26,7 +26,7 @@ export default function App() {
       <CartProvider>
         <Router>
           <div className="flex flex-col min-h-screen">
-            <Header />
+            <HeaderComponent />
             <main className="flex-grow pt-16">
               <Routes>
                 {/* Public routes */}
@@ -73,7 +73,7 @@ export default function App() {
                 />
               </Routes>
             </main>
-            <Footer />
+            <FooterComponent />
           </div>
         </Router>
       </CartProvider>

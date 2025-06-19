@@ -1,16 +1,6 @@
 import { motion } from "framer-motion";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Instagram,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Youtube,
-  HeartHandshake,
-  Briefcase,
-} from "lucide-react";
+import { Mail, Phone, MapPin, HeartHandshake, Briefcase } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "react-feather";
 
 export default function ContactPage() {
   return (

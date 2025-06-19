@@ -35,7 +35,7 @@ const WELCOME_CONTENT = {
   ],
 };
 
-export const MemberWelcome = ({
+export const WelcomeComponent = ({
   username,
   duration = 6000,
   onClose,
