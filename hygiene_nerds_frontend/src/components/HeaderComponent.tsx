@@ -64,16 +64,22 @@ export default function HeaderComponent() {
       text: "Products",
       icon: <AiFillProduct style={{ color: "blue" }} />,
     },
-    isAuthenticated && {
-      to: "/special-offers",
-      text: "Special Offers",
-      icon: <Gift style={{ color: "green" }} className="h-4 w-4 mr-2" />,
-    },
-    isAuthenticated && {
-      to: "/letterfeeds",
-      text: "Hygiene News",
-      icon: <BsNewspaper style={{ color: "red" }} className="h-4 w-4 mr-2" />,
-    },
+    ...(isAuthenticated
+      ? [
+          {
+            to: "/special-offers",
+            text: "Special Offers",
+            icon: <Gift style={{ color: "green" }} className="h-4 w-4 mr-2" />,
+          },
+          {
+            to: "/letterfeeds",
+            text: "Hygiene News",
+            icon: (
+              <BsNewspaper style={{ color: "red" }} className="h-4 w-4 mr-2" />
+            ),
+          },
+        ]
+      : []),
   ].filter(Boolean);
 
   return (

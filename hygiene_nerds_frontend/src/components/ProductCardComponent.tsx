@@ -10,7 +10,6 @@ interface ProductCardProps {
 
 const ProductCardComponent = ({ product }: ProductCardProps) => {
   const { addToCart, cartItems } = useCart();
-  const [isAnimating, setIsAnimating] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [quantityToAdd, setQuantityToAdd] = useState(1);
@@ -39,7 +38,6 @@ const ProductCardComponent = ({ product }: ProductCardProps) => {
 
   const handleAddToCart = (qty: number = 1) => {
     if (!isOutOfStock && localStock >= qty) {
-      setIsAnimating(true);
       addToCart(
         product.id,
         product.price,

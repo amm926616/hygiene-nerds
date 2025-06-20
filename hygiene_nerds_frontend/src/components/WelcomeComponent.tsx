@@ -6,7 +6,7 @@ import { GiSparkles, GiPartyPopper } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 
 interface WelcomeProps {
-  username: string | null;
+  username: string;
   duration?: number;
   onClose?: () => void;
 }

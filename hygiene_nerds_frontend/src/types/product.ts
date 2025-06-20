@@ -1,4 +1,5 @@
 export interface Product {
+  id: number;
   name: string;
   description: string;
   brandName: string;
@@ -6,5 +7,7 @@ export interface Product {
   price: number;
   category: string;
   imageFile: File | null;
-  imagePath: string | null;
+  imageUrl: string | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 }

@@ -9,6 +9,8 @@ import { CheckCircle, CreditCard, Shield, Truck, XCircle } from "react-feather";
 import { useAuth } from "../providers/AuthProvider";
 import { getUserDetails } from "../service/auth.service";
 import { processCheckout } from "../service/checkout.service";
+import { toast } from "react-toastify";
+import { SpinnerComponent } from "../components/SpinnerComponent";
 
 export default function CheckOutPage() {
   const { username } = useAuth();
@@ -27,6 +29,18 @@ export default function CheckOutPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (loading) {
+      <SpinnerComponent />;
+    }
+  }, [loading]);
 
   useEffect(() => {
     const fetchUserData = async () => {

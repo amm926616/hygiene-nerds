@@ -1,40 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { Product } from "../types/Product";
 
-interface Product {
-  id?: number;
-  name: string;
-  description: string;
-  brandName: string;
-  price: number;
-  category: string;
-  stock: number;
-  imageFile?: File | null;
-  imagePath?: string | null;
-}
+// export interface Product {
+//   id: number;
+//   name: string;
+//   description: string;
+//   brandName: string;
+//   stock: number;
+//   price: number;
+//   category: string;
+//   imageFile: File | undefined;
+//   imagePath: string | null;
+//   createdAt: Date | null;
+//   updatedAt: Date | null;
+// }
 
 interface ProductFormProps {
-  product?: Product;
+  product: Product | null;
   onSave: (product: Product) => Promise<void>;
   onCancel: () => void;
   isLoading?: boolean;
 }
 
-const ProductForm: React.FC<ProductFormProps> = ({
+const ProductForm = ({
   product,
   onSave,
   onCancel,
   isLoading,
-}) => {
+}: ProductFormProps) => {
   const [formData, setFormData] = useState<Omit<Product, "id">>({
-    name: product?.name || "",
-    description: product?.description || "",
-    brandName: product?.brandName || "",
-    price: product?.price || 0,
-    category: product?.category || "",
-    stock: product?.stock || 10,
+    name: product.name,
+    description: product.description,
+    brandName: product.brandName,
+    price: product.price,
+    category: product.category,
+    stock: product.stock,
     imageFile: null,
-    imagePath: product?.imagePath || null,
+    imagePath: product.imagePath,
+    createdAt: product.createdAt,
+    updatedAt: product.updatedAt,
   });
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -43,7 +48,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
   >({});
 
   useEffect(() => {
-    if (product?.imagePath) {
+    if (product.imagePath) {
       setPreviewImage(
         `http://localhost:8080/products/image/${product.imagePath}`,
       );
@@ -152,19 +157,15 @@ const ProductForm: React.FC<ProductFormProps> = ({
       // Only append imageFile if it exists (for new uploads)
       if (formData.imageFile) {
         formDataToSend.append("imageFile", formData.imageFile);
-      }
-      // For editing existing product with no new image, use existing imagePath
-      else if (formData.imagePath) {
-        // You might need to handle this case differently if your backend expects a file
-        // This is just a placeholder - adjust based on your backend requirements
+      } else if (formData.imagePath) {
         formDataToSend.append("imagePath", formData.imagePath);
       }
 
       await onSave({
-        ...(product?.id && { id: product.id }),
+        ...product,
         ...formData,
         // Ensure imageFile is included in the product object
-        imageFile: formData.imageFile || undefined,
+        imageFile: formData.imageFile || null,
       });
     } catch (error) {
       console.error("Error saving product:", error);

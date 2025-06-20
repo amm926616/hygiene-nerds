@@ -4,9 +4,9 @@ import { Zap, Gift } from "lucide-react";
 import { SpecialPackage } from "../types/product.dto";
 import { fetchSpecialPackages } from "../service/product.service";
 import { Link } from "react-router-dom";
-import { LoadingSpinnerComponent } from "../components/LoadingSpinnerComponent";
 import FloatingCart from "../components/FloatingCardComponent";
 import { SpecialPackageCardComponent } from "../components/SpecialPackageCardComponent";
+import { SpinnerComponent } from "../components/SpinnerComponent";
 
 export default function SpecialPackagesPage() {
   const [packages, setPackages] = useState<SpecialPackage[]>([]);
@@ -58,7 +58,7 @@ export default function SpecialPackagesPage() {
   };
 
   if (isLoading) {
-    return <LoadingSpinnerComponent />;
+    return <SpinnerComponent />;
   }
 
   return (

@@ -1,14 +1,22 @@
-import { useState } from "react";
 import axios from "axios";
-import { ProductDto } from "../types/product.dto";
+import { useState } from "react";
+
+interface NewProductFormProps {
+  name: string;
+  description: string;
+  price: number;
+  brandName: string;
+  image: File | null;
+  category: string;
+}
 
 const NewProductFormComponent = () => {
-  const [formData, setFormData] = useState<Omit<ProductDto, "id">>({
+  const [formData, setFormData] = useState<NewProductFormProps>({
     name: "",
     description: "",
     price: 0,
     brandName: "",
-    image: File || null, // Updated to store image file
+    image: null,
     category: "",
   });
 
@@ -65,6 +73,7 @@ const NewProductFormComponent = () => {
         name: "",
         description: "",
         price: 0,
+        brandName: "",
         image: null,
         category: "",
       }); // Reset form
