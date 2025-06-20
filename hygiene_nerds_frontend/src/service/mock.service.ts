@@ -237,14 +237,8 @@ const accounts = [
   },
 ];
 
-// src/types/Auth.dto.ts
-export interface LoginDto {
-  username: string;
-  password: string;
-}
-
 // Mock login API call
-function mockLogin(username, password) {
+export function mockLogin({ username, password }: LoginDto) {
   const user = accounts.find(
     (acc) => acc.email === username && acc.password === password,
   );

@@ -1,5 +1,6 @@
 import axios from "axios";
-import { ProductDto, SpecialPackage } from "../types/product.dto";
+import { ProductDto } from "../types/product.dto";
+import { SpecialPackage } from "../types/SpecialPackage.type";
 
 const API_BASE_URL = "http://localhost:8080/api"; // to update with backend url
 

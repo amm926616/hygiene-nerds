@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddNewProductForm from "../forms/AddNewProductForm";
 import { fetchProducts as apiFetchProducts } from "../service/product.service";
-import { Product } from "../types/Product";
+import { Product } from "../types/product";
 
 export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -232,7 +232,7 @@ export default function AdminPage() {
           </button>
         </div>
 
-        {(isAdding || editingProduct) && (
+        {(isAdding || editingProduct != null) && editingProduct != null && (
           <AddNewProductForm
             product={editingProduct}
             onSave={handleSaveProduct}

@@ -10,7 +10,7 @@ import { useAuth } from "../providers/AuthProvider";
 import { getUserDetails } from "../service/auth.service";
 import { processCheckout } from "../service/checkout.service";
 import { toast } from "react-toastify";
-import { SpinnerComponent } from "../components/SpinnerComponent";
+import { LoadingSpinnerComponent } from "../components/LoadingSpinnerComponent";
 
 export default function CheckOutPage() {
   const { username } = useAuth();
@@ -38,7 +38,7 @@ export default function CheckOutPage() {
 
   useEffect(() => {
     if (loading) {
-      <SpinnerComponent />;
+      <LoadingSpinnerComponent />;
     }
   }, [loading]);
 
@@ -77,7 +77,7 @@ export default function CheckOutPage() {
       try {
         setIsLoading(true);
         const products = await fetchProductsByIds(
-          cartItems.map((item) => item.productId),
+          cartItems.map((item) => item.id),
         );
         console.log("Fetched products:", products);
         setProducts(products);
@@ -98,7 +98,7 @@ export default function CheckOutPage() {
   // Calculate totals
   const { subtotal, tax, total } = useMemo(() => {
     const subtotal = cartItems.reduce((sum, cartItem) => {
-      const product = products.find((p) => p.id === cartItem.productId);
+      const product = products.find((p) => p.id === cartItem.id);
       return sum + (product?.price || 0) * cartItem.quantity;
     }, 0);
 
@@ -195,19 +195,16 @@ export default function CheckOutPage() {
                   <div className="divide-y divide-gray-200">
                     {cartItems.map((cartItem) => {
                       const product = products.find(
-                        (p) => p.id === cartItem.productId,
+                        (p) => p.id === cartItem.id,
                       );
                       if (!product) {
                         return (
-                          <div
-                            key={cartItem.productId}
-                            className="py-4 text-red-500"
-                          >
-                            Product not available (ID: {cartItem.productId})
+                          <div key={cartItem.id} className="py-4 text-red-500">
+                            Product not available (ID: {cartItem.id})
                             <button
                               onClick={(e) => {
                                 e.preventDefault();
-                                removeFromCart(cartItem.productId);
+                                removeFromCart(cartItem.id);
                               }}
                               className="ml-4 text-sm text-red-700"
                             >
@@ -219,7 +216,7 @@ export default function CheckOutPage() {
 
                       return (
                         <motion.div
-                          key={cartItem.productId}
+                          key={cartItem.id}
                           layout
                           className="py-4 flex"
                         >
@@ -249,11 +246,12 @@ export default function CheckOutPage() {
                                   type="button"
                                   onClick={(e) => {
                                     e.preventDefault();
-                                    updateQuantity(
-                                      cartItem.productId,
-                                      cartItem.quantity - 1,
-                                      cartItem.stock,
-                                    );
+                                    if (cartItem.quantity > 1) {
+                                      updateQuantity(
+                                        cartItem.id,
+                                        cartItem.quantity - 1,
+                                      );
+                                    }
                                   }}
                                   className={`px-3 py-1 bg-blue-200 text-gray-600 hover:bg-blue-100 active:bg-gray-200 transition-colors
                                     ${cartItem.quantity <= 1 ? "opacity-50 cursor-not-allowed" : "hover:text-gray-900"}`}
@@ -284,9 +282,8 @@ export default function CheckOutPage() {
                                   onClick={(e) => {
                                     e.preventDefault();
                                     updateQuantity(
-                                      cartItem.productId,
+                                      cartItem.id,
                                       cartItem.quantity + 1,
-                                      cartItem.stock,
                                     );
                                   }}
                                   className="px-3 py-1 bg-blue-200 text-gray-600 hover:text-gray-900 hover:bg-blue-100 active:bg-gray-200 transition-colors"
@@ -315,7 +312,7 @@ export default function CheckOutPage() {
                             </p>
                             <button
                               type="button"
-                              onClick={() => removeFromCart(cartItem.productId)}
+                              onClick={() => removeFromCart(cartItem.id)}
                               className="bg-red-100 text-red-500 hover:bg-red-200 hover:text-red-700 text-sm mt-1 px-3 py-1 rounded-md"
                             >
                               Remove

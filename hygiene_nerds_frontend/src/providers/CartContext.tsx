@@ -6,26 +6,12 @@ import {
   useMemo,
   useEffect,
 } from "react";
-
-interface CartItem {
-  productId: number;
-  quantity: number;
-  price: number;
-  name: string;
-  brandName?: string;
-  imageUrl: string;
-}
+import { Product } from "../types/product";
+import { CartItem } from "../types/CartItem.dto";
 
 interface CartContextType {
   cartItems: CartItem[];
-  addToCart: (
-    productId: number,
-    price: number,
-    name: string,
-    imageUrl?: string,
-    qty?: number,
-    brandName?: string,
-  ) => void;
+  addToCart: (product: Omit<CartItem, "quantity">, quantity: number) => void;
   removeFromCart: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
   clearCart: () => void;
@@ -40,8 +26,13 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     if (typeof window !== "undefined") {
-      const savedCart = localStorage.getItem("cart");
-      return savedCart ? JSON.parse(savedCart) : [];
+      try {
+        const savedCart = localStorage.getItem("cart");
+        return savedCart ? JSON.parse(savedCart) : [];
+      } catch (error) {
+        console.error("Failed to parse cart data from localStorage", error);
+        return [];
+      }
     }
     return [];
   });
@@ -50,47 +41,25 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = useCallback(
-    (
-      productId: number,
-      price: number,
-      name: string,
-      imageUrl: string,
-      qty: number,
-      brandName?: string,
-    ) => {
-      console.log(
-        "Adding to cart:",
-        productId,
-        price,
-        name,
-        imageUrl,
-        qty,
-        brandName,
-      );
-      setCartItems((prevItems) => {
-        const existingItem = prevItems.find(
-          (item) => item.productId === productId,
+  const addToCart = useCallback((product: Product, qty: number) => {
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find((item) => item.id === product.id);
+
+      if (existingItem) {
+        return prevItems.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + qty }
+            : item,
         );
-        if (existingItem) {
-          return prevItems.map((item) =>
-            item.productId === productId
-              ? { ...item, quantity: item.quantity + qty }
-              : item,
-          );
-        }
-        return [
-          ...prevItems,
-          { productId, quantity: qty, price, name, imageUrl, brandName },
-        ];
-      });
-    },
-    [],
-  );
+      }
+
+      return [...prevItems, { ...product, quantity: qty }];
+    });
+  }, []);
 
   const removeFromCart = useCallback((productId: number) => {
     setCartItems((prevItems) =>
-      prevItems.filter((item) => item.productId !== productId),
+      prevItems.filter((item) => item.id !== productId),
     );
   }, []);
 
@@ -101,17 +70,11 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
 
-      setCartItems((prevItems) => {
-        const existingItem = prevItems.find(
-          (item) => item.productId === productId,
-        );
-        if (existingItem) {
-          return prevItems.map((item) =>
-            item.productId === productId ? { ...item, quantity } : item,
-          );
-        }
-        return prevItems; // Don't add new item if it doesn't exist
-      });
+      setCartItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === productId ? { ...item, quantity } : item,
+        ),
+      );
     },
     [removeFromCart],
   );
@@ -121,18 +84,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const getItemQuantity = useCallback(
-    (productId: number) => {
-      return (
-        cartItems.find((item) => item.productId === productId)?.quantity || 0
-      );
-    },
+    (productId: number) =>
+      cartItems.find((item) => item.id === productId)?.quantity || 0,
     [cartItems],
   );
 
   const isInCart = useCallback(
-    (productId: number) => {
-      return cartItems.some((item) => item.productId === productId);
-    },
+    (productId: number) => cartItems.some((item) => item.id === productId),
     [cartItems],
   );
 

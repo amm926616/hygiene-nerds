@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 
+type UserRole = "ROLE_ADMIN" | "ROLE_CUSTOMER";
+
 interface ProtectedRouteProps {
-  roles?: ("ROLE_ADMIN" | "ROLE_CUSTOMER")[];
+  roles?: UserRole[];
   redirectTo?: string;
   children?: React.ReactNode;
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  roles,
+  roles = [],
   redirectTo = "/auth/login",
   children,
 }) => {
@@ -18,27 +20,27 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
-    // Check if we have a token in localStorage
     const token = localStorage.getItem("token");
-    if (token) {
-      // If we have a token but auth state isn't ready yet, wait a moment
-      const timer = setTimeout(() => {
-        setIsCheckingAuth(false);
-      }, 100); // Short delay to allow auth context to initialize
 
-      return () => clearTimeout(timer);
-    } else {
+    // If no token, we can immediately conclude auth check
+    if (!token) {
       setIsCheckingAuth(false);
+      return;
     }
-  }, []);
 
-  // Show nothing while checking initial auth state
+    // If there's a token but auth state isn't ready yet, wait briefly
+    const timer = setTimeout(() => {
+      setIsCheckingAuth(false);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [isAuthenticated]); // Added dependency to re-check if auth state changes
+
   if (isCheckingAuth) {
-    return null; // Or return a loading spinner
+    return null; // Consider replacing with a loading spinner component
   }
 
-  // Check token existence first as a fallback
-  const hasToken = localStorage.getItem("token") !== null;
+  const hasToken = Boolean(localStorage.getItem("token"));
   const effectiveAuth = isAuthenticated || hasToken;
 
   if (!effectiveAuth) {
@@ -46,26 +48,28 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // Check role requirements if specified
-  if (roles && roles.length > 0) {
+  if (roles.length > 0) {
     const hasRequiredRole =
       (isAdmin && roles.includes("ROLE_ADMIN")) ||
       (isCustomer && roles.includes("ROLE_CUSTOMER"));
 
     if (!hasRequiredRole) {
-      return <Navigate to="/unauthorized" replace />;
+      return <Navigate to="/unauthorized" state={{ from: location }} replace />;
     }
   }
 
   return children ? <>{children}</> : <Outlet />;
 };
 
-export const withProtectedRoute = (
-  Component: React.ComponentType,
+export function withProtectedRoute<P extends object>(
+  Component: React.ComponentType<P>,
   options?: Omit<ProtectedRouteProps, "children">,
-) => {
-  return (props: any) => (
-    <ProtectedRoute {...options}>
-      <Component {...props} />
-    </ProtectedRoute>
-  );
-};
+): React.FC<P> {
+  return function WithProtectedRouteWrapper(props: P) {
+    return (
+      <ProtectedRoute {...options}>
+        <Component {...props} />
+      </ProtectedRoute>
+    );
+  };
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Product } from "../types/Product";
+import { Product } from "../types/product";
 
 // export interface Product {
 //   id: number;
@@ -17,7 +17,7 @@ import { Product } from "../types/Product";
 // }
 
 interface ProductFormProps {
-  product: Product | null;
+  product: Product;
   onSave: (product: Product) => Promise<void>;
   onCancel: () => void;
   isLoading?: boolean;
@@ -37,7 +37,7 @@ const ProductForm = ({
     category: product.category,
     stock: product.stock,
     imageFile: null,
-    imagePath: product.imagePath,
+    imageUrl: product.imageUrl,
     createdAt: product.createdAt,
     updatedAt: product.updatedAt,
   });
@@ -48,9 +48,9 @@ const ProductForm = ({
   >({});
 
   useEffect(() => {
-    if (product.imagePath) {
+    if (product.imageUrl) {
       setPreviewImage(
-        `http://localhost:8080/products/image/${product.imagePath}`,
+        `http://localhost:8080/products/image/${product.imageUrl}`,
       );
     }
   }, [product]);
@@ -128,7 +128,7 @@ const ProductForm = ({
       errors.imageFile = "Product image is required";
     }
     // For editing existing product, require image if there was no existing image
-    else if (product?.id && !formData.imagePath && !formData.imageFile) {
+    else if (product?.id && !formData.imageUrl && !formData.imageFile) {
       errors.imageFile = "Product image is required";
     }
 
@@ -157,8 +157,8 @@ const ProductForm = ({
       // Only append imageFile if it exists (for new uploads)
       if (formData.imageFile) {
         formDataToSend.append("imageFile", formData.imageFile);
-      } else if (formData.imagePath) {
-        formDataToSend.append("imagePath", formData.imagePath);
+      } else if (formData.imageUrl) {
+        formDataToSend.append("imagePath", formData.imageUrl);
       }
 
       await onSave({
@@ -304,7 +304,7 @@ const ProductForm = ({
             <div>
               <label className="block text-sm font-medium text-gray-600 mb-1">
                 Product Image{" "}
-                {(!product?.imagePath || !formData.imagePath) && (
+                {(!product?.imageUrl || !formData.imageUrl) && (
                   <span className="text-red-500">*</span>
                 )}
               </label>
@@ -324,12 +324,12 @@ const ProductForm = ({
                   {validationErrors.imageFile}
                 </p>
               )}
-              {(previewImage || formData.imagePath) && (
+              {(previewImage || formData.imageUrl) && (
                 <div className="mt-4">
                   <img
                     src={
                       previewImage ||
-                      `http://localhost:8080/products/image/${formData.imagePath}`
+                      `http://localhost:8080/products/image/${formData.imageUrl}`
                     }
                     alt="Preview"
                     className="h-32 object-contain rounded-lg border"

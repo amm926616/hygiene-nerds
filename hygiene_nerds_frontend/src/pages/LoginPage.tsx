@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff } from "react-feather";
 import RealisticBubbleComponent from "../components/RealisticBubbleComponent";
@@ -22,7 +22,7 @@ const LoginPage = () => {
   const [showWelcome, setShowWelcome] = useState(false);
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -37,7 +37,7 @@ const LoginPage = () => {
     }));
   };
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
     setIsLoading(true);

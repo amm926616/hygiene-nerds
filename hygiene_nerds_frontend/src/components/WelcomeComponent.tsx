@@ -58,7 +58,7 @@ export const WelcomeComponent = ({
     document.documentElement.style.overflow = "hidden";
     const timer = setTimeout(handleClose, duration);
     return () => clearTimeout(timer);
-  }, [duration]);
+  }, []);
 
   return (
     <AnimatePresence>

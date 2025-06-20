@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import FloatingCart from "../components/FloatingCardComponent";
-import { SpinnerComponent } from "../components/SpinnerComponent";
+import { LoadingSpinnerComponent } from "../components/LoadingSpinnerComponent";
 import { fetchProducts } from "../service/product.service";
 import { ProductDto } from "../types/product.dto";
 import ProductListComponent from "../components/ProductListComponent";
+import { Product } from "../types/product";
 
 // Cache for products data
-let productsCache: ProductDto[] | null = null;
+let productsCache: Product[] | null = null;
 
-export default function Products() {
-  const [products, setProducts] = useState<ProductDto[]>([]);
+export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Check welcome status and products cache
   useEffect(() => {
@@ -20,6 +21,12 @@ export default function Products() {
       setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      <LoadingSpinnerComponent />;
+    }
+  }, [isLoading]);
 
   // Load products when authentication is confirmed
   useEffect(() => {
@@ -39,7 +46,7 @@ export default function Products() {
         console.log("just fetched products from backend");
         console.log(response.data);
 
-        const formattedProducts: ProductDto[] = response.data.map(
+        const formattedProducts: Product[] = response.data.map(
           (product: ProductDto) => ({
             id: product.id,
             name: product.name,
@@ -66,11 +73,7 @@ export default function Products() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <SpinnerComponent size="md" />
-        </div>
-      ) : error ? (
+      {error ? (
         <div className="text-center text-red-500 py-8">{error}</div>
       ) : (
         <>

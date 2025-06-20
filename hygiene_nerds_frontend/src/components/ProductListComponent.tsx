@@ -1,12 +1,12 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { ProductDto } from "../types/product.dto";
+import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import ProductBackground from "../background/Background";
+import { Product } from "../types/product";
 import ProductCardComponent from "./ProductCardComponent";
 import SearchAndFilterComponent from "./SearchBarComponent";
-import { motion, AnimatePresence } from "framer-motion";
-import ProductBackground from "../background/Background";
 
 interface ProductListProps {
-  products: ProductDto[];
+  products: Product[];
 }
 
 // Consider an enum for better autocompletion and type safety

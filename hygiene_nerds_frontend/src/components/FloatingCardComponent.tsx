@@ -207,7 +207,7 @@ const FloatingCart = () => {
             <div className="overflow-y-auto flex-1">
               {cartItems.map((item) => (
                 <motion.div
-                  key={item.productId}
+                  key={item.id}
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   className="p-4 border-b border-gray-100 flex items-center"
@@ -220,7 +220,7 @@ const FloatingCart = () => {
                           : image_backend_url + item.imageUrl
                       }
                       className="w-full h-full object-cover"
-                      alt={item.imageUrl}
+                      alt={item.imageUrl != null ? item.name : "Default image"}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -238,7 +238,7 @@ const FloatingCart = () => {
                     <div className="flex items-center justify-end gap-1 mt-1">
                       <button
                         onClick={() =>
-                          updateQuantity(item.productId, item.quantity - 1)
+                          updateQuantity(item.id, item.quantity - 1)
                         }
                         className="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
                         aria-label="Decrease quantity"
@@ -256,7 +256,7 @@ const FloatingCart = () => {
 
                       <button
                         onClick={() =>
-                          updateQuantity(item.productId, item.quantity + 1)
+                          updateQuantity(item.id, item.quantity + 1)
                         }
                         className="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
                         aria-label="Increase quantity"
@@ -269,7 +269,7 @@ const FloatingCart = () => {
                       </button>
 
                       <button
-                        onClick={() => updateQuantity(item.productId, 0)}
+                        onClick={() => updateQuantity(item.id, 0)}
                         className="p-1 text-gray-500 hover:text-red-500 hover:bg-gray-100 rounded ml-1"
                         aria-label="Remove item"
                       >
