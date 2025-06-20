@@ -1,4 +1,4 @@
 export APPLICATION_NAME=hygiene_nerds_backend
 export DATABASE_URL=jdbc:mysql://localhost:3306/hygiene_nerds_db?createDatabaseIfNotExist=true
 export MYSQL_USERNAME=aiden_the_one
-export MYSQL_PASSWORD=9Dg0@ZN!n0B+^i6p
+export MYSQL_PASSWORD='9Dg0@ZN!n0B+^i6p'
