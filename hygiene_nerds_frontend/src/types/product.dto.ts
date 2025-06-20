@@ -8,14 +8,3 @@ export interface ProductDto {
   category: string;
   stock: number;
 }
-
-export interface SpecialPackage {
-  id: number;
-  packageName: string;
-  duration: number;
-  expirationDate: string;
-  offeredProducts: ProductDto[];
-  discount?: number; // Calculated field
-  price?: number; // Calculated field
-  originalPrice?: number; // Calculated field
-}

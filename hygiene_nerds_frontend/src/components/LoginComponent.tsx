@@ -2,19 +2,28 @@ import { useState } from "react";
 import { Eye, EyeOff } from "react-feather";
 import RealisticBubbleComponent from "../components/RealisticBubbleComponent";
 
-const LoginComponent = ({
+type LoginComponentProps = {
+  onLogin: (credentials: { username: string; password: string }) => void;
+  isLoading?: boolean;
+  errorMessage?: string;
+  registerLink?: string;
+  showBubbles?: boolean;
+  bubbleCount?: number;
+};
+
+export default function LoginComponent({
   onLogin,
   isLoading = false,
   errorMessage = "",
   registerLink = "/auth/register",
   showBubbles = true,
   bubbleCount = 20,
-}) => {
+}: LoginComponentProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onLogin({ username, password });
   };
@@ -134,6 +143,4 @@ const LoginComponent = ({
       </style>
     </div>
   );
-};
-
-export default LoginComponent;
+}

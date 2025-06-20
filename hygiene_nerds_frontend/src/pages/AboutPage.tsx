@@ -5,7 +5,7 @@ import { GiSparkles } from "react-icons/gi";
 import { LuHeartHandshake } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
-export default function About() {
+export default function AboutPage() {
   return (
     <div className="bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto px-6 py-16 max-w-4xl">

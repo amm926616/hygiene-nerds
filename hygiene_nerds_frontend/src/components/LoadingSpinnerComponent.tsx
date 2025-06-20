@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "../lib/util"; // Assuming you have a className utility function
+import { cn } from "../lib/util";
 
 type SpinnerSize = "xs" | "sm" | "md" | "lg" | "xl";
 type SpinnerColor =
@@ -26,16 +26,16 @@ const sizeClasses: Record<SpinnerSize, string> = {
 };
 
 const colorClasses: Record<SpinnerColor, string> = {
-  primary: "border-t-blue-500 border-b-blue-500",
-  secondary: "border-t-purple-500 border-b-purple-500",
-  danger: "border-t-red-500 border-b-red-500",
-  success: "border-t-green-500 border-b-green-500",
-  warning: "border-t-yellow-500 border-b-yellow-500",
-  light: "border-t-gray-200 border-b-gray-200",
-  dark: "border-t-gray-800 border-b-gray-800",
+  primary: "border-t-blue-500 border-transparent",
+  secondary: "border-t-purple-500 border-transparent",
+  danger: "border-t-red-500 border-transparent",
+  success: "border-t-green-500 border-transparent",
+  warning: "border-t-yellow-500 border-transparent",
+  light: "border-t-gray-200 border-transparent",
+  dark: "border-t-gray-800 border-transparent",
 };
 
-export const Spinner: React.FC<SpinnerProps> = ({
+export const LoadingSpinnerComponent: React.FC<SpinnerProps> = ({
   size = "md",
   color = "primary",
   className = "",
@@ -43,7 +43,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
   return (
     <div
       className={cn(
-        "inline-block animate-spin rounded-full border-transparent",
+        "inline-block animate-spin rounded-full",
         sizeClasses[size],
         colorClasses[color],
         className,
@@ -56,7 +56,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
   );
 };
 
-// Optional: Spinner with container for centered loading
+// Spinner with container for centered loading
 interface SpinnerWithContainerProps extends SpinnerProps {
   fullScreen?: boolean;
   text?: string;
@@ -76,7 +76,7 @@ export const SpinnerWithContainer: React.FC<SpinnerWithContainerProps> = ({
         fullScreen ? "h-screen w-screen" : "w-full h-full",
       )}
     >
-      <Spinner {...spinnerProps} />
+      <LoadingSpinnerComponent {...spinnerProps} />
       {text && <span className={textClassName}>{text}</span>}
     </div>
   );

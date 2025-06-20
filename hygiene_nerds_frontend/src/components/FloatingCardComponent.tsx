@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useCart } from "../providers/CartContext";
 import { Link } from "react-router-dom";
 import { image_backend_url } from "../data/const";
-import { RightClickHint } from "./ProductCartHint";
 import { Minus, Plus, Trash2 } from "react-feather";
+import { RightClickHintComponent } from "./ProductCartHintComponent";
 
 const FloatingCart = () => {
   const padding = 120;
@@ -15,12 +15,11 @@ const FloatingCart = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [showQuickPreview, setShowQuickPreview] = useState(false);
-  const [lastAddedItem, setLastAddedItem] = useState(null);
   const controls = useAnimation();
   const cartRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const prevCountRef = useRef(cartCount);
-  const doubleClickTimer = useRef(null);
+  const doubleClickTimer = useRef<number | null>(null);
   const clickCount = useRef(0);
   const [showRightClickHint, setShowRightClickHint] = useState(false);
   const [hasShownHint, setHasShownHint] = useState(false);
@@ -38,9 +37,6 @@ const FloatingCart = () => {
   // Handle cart item addition animation and first-item hint
   useEffect(() => {
     if (cartCount > prevCountRef.current) {
-      const newItem = cartItems[cartItems.length - 1];
-      setLastAddedItem(newItem);
-
       // Trigger the cart animation
       triggerAddAnimation();
 
@@ -66,33 +62,25 @@ const FloatingCart = () => {
     return () => window.removeEventListener("resize", updateConstraints);
   }, []);
 
-  // Get cart position for bubble animation
-  const getCartPosition = () => {
-    if (!cartRef.current) return { x: 0, y: 0 };
-    const rect = cartRef.current.getBoundingClientRect();
-    return {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    };
-  };
-
-  // Handle cart interactions
-  const handlePointerDown = (e) => {
-    // Right click
+  const handlePointerDown = (e: React.PointerEvent) => {
+    // Handle right-click
     if (e.button === 2) {
       e.preventDefault();
       toggleQuickPreview();
       return;
     }
 
-    // Handle double click
+    // Handle double-click logic
     clickCount.current += 1;
+
     if (clickCount.current === 1) {
-      doubleClickTimer.current = setTimeout(() => {
+      doubleClickTimer.current = window.setTimeout(() => {
         clickCount.current = 0;
       }, 300);
     } else if (clickCount.current === 2) {
-      clearTimeout(doubleClickTimer.current);
+      if (doubleClickTimer.current !== null) {
+        clearTimeout(doubleClickTimer.current);
+      }
       clickCount.current = 0;
       toggleQuickPreview();
     }
@@ -102,19 +90,23 @@ const FloatingCart = () => {
     setShowQuickPreview(!showQuickPreview);
   };
 
-  // Close preview when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         previewRef.current &&
-        !previewRef.current.contains(event.target) &&
-        !cartRef.current.contains(event.target)
+        !previewRef.current.contains(event.target as Node) &&
+        cartRef.current &&
+        !cartRef.current.contains(event.target as Node)
       ) {
         setShowQuickPreview(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   return (
@@ -151,7 +143,7 @@ const FloatingCart = () => {
           }}
         >
           {/* Add the RightClickHint component */}
-          <RightClickHint show={showRightClickHint} />
+          <RightClickHintComponent show={showRightClickHint} />
 
           {/* Cart Icon */}
           <div className="relative">
@@ -215,7 +207,7 @@ const FloatingCart = () => {
             <div className="overflow-y-auto flex-1">
               {cartItems.map((item) => (
                 <motion.div
-                  key={item.productId}
+                  key={item.id}
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   className="p-4 border-b border-gray-100 flex items-center"
@@ -228,7 +220,7 @@ const FloatingCart = () => {
                           : image_backend_url + item.imageUrl
                       }
                       className="w-full h-full object-cover"
-                      alt={item.imageUrl}
+                      alt={item.imageUrl != null ? item.name : "Default image"}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -246,7 +238,7 @@ const FloatingCart = () => {
                     <div className="flex items-center justify-end gap-1 mt-1">
                       <button
                         onClick={() =>
-                          updateQuantity(item.productId, item.quantity - 1)
+                          updateQuantity(item.id, item.quantity - 1)
                         }
                         className="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
                         aria-label="Decrease quantity"
@@ -264,7 +256,7 @@ const FloatingCart = () => {
 
                       <button
                         onClick={() =>
-                          updateQuantity(item.productId, item.quantity + 1)
+                          updateQuantity(item.id, item.quantity + 1)
                         }
                         className="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
                         aria-label="Increase quantity"
@@ -277,7 +269,7 @@ const FloatingCart = () => {
                       </button>
 
                       <button
-                        onClick={() => updateQuantity(item.productId, 0)}
+                        onClick={() => updateQuantity(item.id, 0)}
                         className="p-1 text-gray-500 hover:text-red-500 hover:bg-gray-100 rounded ml-1"
                         aria-label="Remove item"
                       >

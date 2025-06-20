@@ -6,7 +6,7 @@ import { GiSparkles, GiPartyPopper } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 
 interface WelcomeProps {
-  username: string | null;
+  username: string;
   duration?: number;
   onClose?: () => void;
 }
@@ -35,7 +35,7 @@ const WELCOME_CONTENT = {
   ],
 };
 
-export const MemberWelcome = ({
+export const WelcomeComponent = ({
   username,
   duration = 6000,
   onClose,
@@ -58,7 +58,7 @@ export const MemberWelcome = ({
     document.documentElement.style.overflow = "hidden";
     const timer = setTimeout(handleClose, duration);
     return () => clearTimeout(timer);
-  }, [duration]);
+  }, []);
 
   return (
     <AnimatePresence>

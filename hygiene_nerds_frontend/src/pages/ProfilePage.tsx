@@ -16,7 +16,8 @@ import {
   getProfileImageUrl,
   uploadProfileImage,
 } from "../service/profileimage.service";
-import Login from "./Login";
+import LoginPage from "./LoginPage";
+import { AxiosError } from "axios";
 
 type UserDto = {
   firstName: string;
@@ -87,7 +88,7 @@ const ProfilePage = () => {
     const loadProfile = async () => {
       try {
         if (!isAuthenticated || !username) {
-          return <Login />;
+          return <LoginPage />;
         }
 
         const response = await getUserDetails(username);
@@ -110,13 +111,17 @@ const ProfilePage = () => {
           },
         });
       } catch (err) {
+        const error = err as AxiosError<{ message?: string }>;
+
         setError(
-          err.response?.data?.message ||
-            err.message ||
+          error.response?.data?.message ||
+            error.message ||
             "Failed to load profile",
         );
+
         if (!isAuthenticated) {
-          return <Login />;
+          // instead of returning JSX here, handle redirection with React Router or state
+          // navigate("/login") or setShowLogin(true)
         }
       } finally {
         setLoading(false);

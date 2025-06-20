@@ -8,7 +8,7 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 
-export default function Footer() {
+export default function FooterComponent() {
   return (
     <footer className="bg-gradient-to-br from-blue-50 to-blue-100 border-t border-blue-200">
       <div className="container mx-auto px-4 py-12">

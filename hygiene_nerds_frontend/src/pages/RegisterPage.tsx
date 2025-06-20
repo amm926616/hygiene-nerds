@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-import { useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { registerApiCall } from "../service/auth.service";
 import RealisticBubbleComponent from "../components/RealisticBubbleComponent";
+import { AxiosError } from "axios";
 
-const Register = () => {
+const RegisterPage = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -20,7 +21,7 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -28,7 +29,7 @@ const Register = () => {
     }));
   };
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
@@ -41,10 +42,11 @@ const Register = () => {
         navigate("/auth/login");
       }, 2000);
     } catch (err) {
-      console.error("Registration error:", err);
+      const error = err as AxiosError<{ message?: string; error?: string }>;
+      console.error("Registration error:", error);
       const errorMsg =
-        err.response?.data?.message ||
-        err.response?.data?.error ||
+        error.response?.data?.message ||
+        error.response?.data?.error ||
         "Registration failed. Please try again.";
       setErrorMessage(errorMsg);
     } finally {
@@ -273,4 +275,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;

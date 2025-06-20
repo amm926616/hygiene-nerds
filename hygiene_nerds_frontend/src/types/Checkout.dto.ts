@@ -1,3 +1,5 @@
+import { CartItem } from "./CartItem.dto";
+
 export interface CheckoutRequest {
   formData: {
     firstName: string;
@@ -7,14 +9,7 @@ export interface CheckoutRequest {
     zipCode: string;
     paymentMethod: string;
   };
-  cartItems: Array<{
-    productId: number;
-    name: string;
-    brandName: string;
-    imageUrl: string;
-    quantity: number;
-    price: number;
-  }>;
+  cartItems: CartItem[];
   total: number;
 }
 

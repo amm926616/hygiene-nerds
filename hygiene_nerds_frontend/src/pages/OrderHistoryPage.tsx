@@ -17,7 +17,7 @@ const statusColors = {
   CANCELLED: "bg-red-100 text-red-800",
 };
 
-export default function OrderHistory() {
+export default function OrderHistoryPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

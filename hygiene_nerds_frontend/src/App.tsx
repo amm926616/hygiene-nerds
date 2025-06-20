@@ -1,25 +1,25 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import FooterComponent from "./components/FooterComponent";
+import HeaderComponent from "./components/HeaderComponent";
 import "./index.css";
-import AdminPage from "./pages/Admin";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import AdminPage from "./pages/AdminPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import { AuthProvider } from "./providers/AuthProvider";
-import SpecialOffersPage from "./pages/SpecialPackagesPage";
-import ProfilePage from "./pages/Profile";
-import { HygieneLetterFeed } from "./pages/NewFeeds";
+import SpecialPackagesPage from "./pages/SpecialPackagesPage";
+import ProfilePage from "./pages/ProfilePage";
+import { HygieneLetterFeedPage } from "./pages/HygieneLetterFeedPage";
 import { ProtectedRoute } from "./providers/ProtectedRoutes";
-import Unauthorized from "./pages/Unauthorized";
-import Products from "./pages/Products";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
+import ProductsPage from "./pages/ProductsPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 import CheckOutPage from "./pages/CheckOutPage";
-import Playground from "./pages/Playground";
-import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
 import { CartProvider } from "./providers/CartContext";
-import OrderConfirmation from "./pages/OrderConfirmation";
-import OrderHistory from "./pages/OrderHistory";
+import OrderConfirmationPage from "./pages/OrderConfirmationPage";
+import OrderHistory from "./pages/OrderHistoryPage";
+import { LoadingSpinnerComponent } from "./components/LoadingSpinnerComponent";
 
 export default function App() {
   return (
@@ -27,30 +27,41 @@ export default function App() {
       <CartProvider>
         <Router>
           <div className="flex flex-col min-h-screen">
-            <Header />
+            <HeaderComponent />
             <main className="flex-grow pt-16">
               <Routes>
                 {/* Public routes */}
-                <Route path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/auth/login" element={<Login />} />
-                <Route path="/auth/register" element={<Register />} />
-                <Route path="/unauthorized" element={<Unauthorized />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/auth/login" element={<LoginPage />} />
+                <Route path="/auth/register" element={<RegisterPage />} />
+                <Route path="/unauthorized" element={<UnauthorizedPage />} />
                 <Route path="/checkout" element={<CheckOutPage />} />
+                <Route
+                  path="/test"
+                  element={
+                    <div className="flex justify-center items-center h-64">
+                      <LoadingSpinnerComponent size="md" />
+                    </div>
+                  }
+                />
 
                 {/* Authenticated routes (any logged-in user) */}
                 <Route element={<ProtectedRoute />}>
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route
                     path="/special-offers"
-                    element={<SpecialOffersPage />}
+                    element={<SpecialPackagesPage />}
                   />
-                  <Route path="/letterfeeds" element={<HygieneLetterFeed />} />
+                  <Route
+                    path="/letterfeeds"
+                    element={<HygieneLetterFeedPage />}
+                  />
                   <Route
                     path="/order-confirmation/:orderId"
-                    element={<OrderConfirmation />}
+                    element={<OrderConfirmationPage />}
                   />
                   <Route path="/orders" element={<OrderHistory />} />
                 </Route>
@@ -58,7 +69,6 @@ export default function App() {
                 {/* Admin-only routes */}
                 <Route element={<ProtectedRoute roles={["ROLE_ADMIN"]} />}>
                   <Route path="/admin" element={<AdminPage />} />
-                  <Route path="/playground" element={<Playground />} />
                 </Route>
 
                 {/* 404 Not Found */}
@@ -72,7 +82,7 @@ export default function App() {
                 />
               </Routes>
             </main>
-            <Footer />
+            <FooterComponent />
           </div>
         </Router>
       </CartProvider>

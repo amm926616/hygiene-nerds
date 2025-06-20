@@ -1,22 +1,12 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { ProductDto } from "../types/product.dto";
-import ProductCard from "./ProductCard";
-import SearchAndFilter from "./SearchBarComponent";
-import { motion, AnimatePresence } from "framer-motion";
-import ProductBackground from "../backgrounds/Background";
-
-//   datatypes in product.dto.ts
-//   id: number;
-//   name: string;
-//   description: string;
-//   brandName: string;
-//   price: number;
-//   imageUrl: string;
-//   category: string;
-//   stock: number;
+import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import ProductBackground from "../background/Background";
+import { Product } from "../types/product";
+import ProductCardComponent from "./ProductCardComponent";
+import SearchAndFilterComponent from "./SearchBarComponent";
 
 interface ProductListProps {
-  products: ProductDto[];
+  products: Product[];
 }
 
 // Consider an enum for better autocompletion and type safety
@@ -28,7 +18,7 @@ enum SortOption {
   STOCK = "stock",
 }
 
-const ProductList = ({ products }: ProductListProps) => {
+const ProductListComponent = ({ products }: ProductListProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [sortOption, setSortOption] = useState<SortOption>(SortOption.DEFAULT);
@@ -127,7 +117,7 @@ const ProductList = ({ products }: ProductListProps) => {
       >
         <ProductBackground>
           <div className="flex flex-col space-y-4">
-            <SearchAndFilter
+            <SearchAndFilterComponent
               searchQuery={searchQuery}
               handleSearch={handleSearch}
               productCategories={productCategories}
@@ -219,7 +209,7 @@ const ProductList = ({ products }: ProductListProps) => {
                           exit={{ opacity: 0, scale: 0.9 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <ProductCard product={product} />
+                          <ProductCardComponent product={product} />
                         </motion.div>
                       ))}
                     </AnimatePresence>
@@ -254,7 +244,7 @@ const ProductList = ({ products }: ProductListProps) => {
                           exit={{ opacity: 0, scale: 0.9 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <ProductCard product={product} />
+                          <ProductCardComponent product={product} />
                         </motion.div>
                       ))}
                     </AnimatePresence>
@@ -311,4 +301,4 @@ const ProductList = ({ products }: ProductListProps) => {
   );
 };
 
-export default ProductList;
+export default ProductListComponent;

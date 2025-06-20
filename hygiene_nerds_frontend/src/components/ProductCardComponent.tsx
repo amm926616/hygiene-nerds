@@ -1,22 +1,21 @@
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { image_backend_url } from "../data/const";
-import { ProductDto } from "../types/product.dto";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../providers/CartContext";
+import { Product } from "../types/product";
 
 interface ProductCardProps {
-  product: ProductDto;
+  product: Product;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCardComponent = ({ product }: ProductCardProps) => {
   const { addToCart, cartItems } = useCart();
-  const [isAnimating, setIsAnimating] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [quantityToAdd, setQuantityToAdd] = useState(1);
   const [localStock, setLocalStock] = useState(product.stock); // Local stock state
 
-  const cartItem = cartItems.find((item) => item.productId === product.id);
+  const cartItem = cartItems.find((item) => item.id === product.id);
   const quantityInCart = cartItem?.quantity || 0;
 
   // Reset local stock when product changes
@@ -39,15 +38,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   const handleAddToCart = (qty: number = 1) => {
     if (!isOutOfStock && localStock >= qty) {
-      setIsAnimating(true);
-      addToCart(
-        product.id,
-        product.price,
-        product.name,
-        product.imageUrl,
-        qty,
-        product.brandName,
-      );
+      addToCart(product, qty);
       setLocalStock((prev) => prev - qty); // Only update local state
     }
   };
@@ -370,4 +361,4 @@ const ProductCard = ({ product }: ProductCardProps) => {
   );
 };
 
-export default ProductCard;
+export default ProductCardComponent;

@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useCallback, useEffect, useState, useRef } from "react"; // Import useRef
 import { AiFillProduct } from "react-icons/ai";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ProductForm from "../forms/AddNewProductFrom";
+import AddNewProductForm from "../forms/AddNewProductForm";
 import { fetchProducts as apiFetchProducts } from "../service/product.service";
-import { Product } from "../types/Product";
+import { Product } from "../types/product";
 
 export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -45,7 +45,7 @@ export default function AdminPage() {
   }, [fetchProducts]);
 
   const handleSaveProduct = async (product: Product) => {
-    if (!product.imageFile && !product.imagePath) {
+    if (!product.imageFile && !product.imageUrl) {
       toast.warn("Please select an image.");
       return;
     }
@@ -55,38 +55,31 @@ export default function AdminPage() {
     try {
       const formData = new FormData();
 
-      // Append all required fields
       formData.append("name", product.name);
       formData.append("description", product.description);
       formData.append("brandName", product.brandName);
       formData.append("price", product.price.toString());
       formData.append("stock", product.stock?.toString() || "10");
+      formData.append(
+        "createdAt",
+        product.createdAt?.toString() || Date.now().toString(),
+      );
+      formData.append(
+        "updatedAt",
+        product.updatedAt?.toString() || Date.now().toString(),
+      );
       formData.append("category", product.category);
 
-      // Special handling for image file
       if (product.imageFile) {
-        // Important: Use the same field name as expected by backend ('imageFile')
         formData.append("imageFile", product.imageFile, product.imageFile.name);
-      } else if (product.imagePath) {
-        // For updates when not changing the image
-        formData.append("imagePath", product.imagePath);
+      } else if (product.imageUrl) {
+        formData.append("imagePath", product.imageUrl);
       }
-
-      const endpoint = editingProduct
-        ? `http://localhost:8080/api/products/update/${editingProduct.id}`
-        : "http://localhost:8080/api/products/add-new-product";
 
       console.log("FormData contents before sending:");
-      // Debugging: Log FormData contents
-      for (const [key, value] of (formData as any).entries()) {
+      for (const [key, value] of formData.entries()) {
         console.log(key, value);
       }
-
-      const response = await axios.post(endpoint, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
 
       toast.success(
         editingProduct
@@ -97,14 +90,18 @@ export default function AdminPage() {
       setIsAdding(false);
       setEditingProduct(null);
       fetchProducts();
-      scrollToTop(); // Scroll to top after save
-    } catch (error) {
+      scrollToTop();
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
+
       console.error("Detailed error:", error);
+
       if (error.response) {
         console.error("Response data:", error.response.data);
         console.error("Response status:", error.response.status);
         console.error("Response headers:", error.response.headers);
       }
+
       toast.error(error.response?.data?.message || "Operation failed");
     } finally {
       setIsLoading(false);
@@ -235,8 +232,8 @@ export default function AdminPage() {
           </button>
         </div>
 
-        {(isAdding || editingProduct) && (
-          <ProductForm
+        {(isAdding || editingProduct != null) && editingProduct != null && (
+          <AddNewProductForm
             product={editingProduct}
             onSave={handleSaveProduct}
             onCancel={() => {

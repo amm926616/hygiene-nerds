@@ -1,4 +1,4 @@
-export default function Services() {
+export default function ServicesComponent() {
   return (
     <div className="relative bg-gradient-to-br from-blue-50 to-indigo-50 py-20 overflow-hidden">
       {/* Decorative elements */}

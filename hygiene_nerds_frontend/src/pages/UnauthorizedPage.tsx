@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ShieldAlert, ArrowLeft } from "lucide-react";
 import { useAuth } from "../providers/AuthProvider";
 
-export default function Unauthorized() {
+export default function UnauthorizedPage() {
   const { isAuthenticated } = useAuth();
 
   return (

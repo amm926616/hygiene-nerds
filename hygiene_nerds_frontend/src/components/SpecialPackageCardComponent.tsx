@@ -1,23 +1,27 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { ProductDto } from "../types/product.dto";
 import { Gift, ShoppingCart, Star } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useCart } from "../providers/CartContext";
+import { SpecialPackage } from "../types/SpecialPackage.type";
 
 interface SpecialPackageCardProps {
-  pkg: {
-    id: number;
-    name: string;
-    description: string;
-    discount: number;
-    price: number;
-    originalPrice: number;
-    offeredProducts: ProductDto[];
-  };
+  pkg: SpecialPackage;
+  onAddToCart: () => void;
 }
 
-export function SpecialPackageCard({ pkg }: SpecialPackageCardProps) {
+// export interface SpecialPackage {
+//   id: number;
+//   packageName: string;
+//   duration: number;
+//   expirationDate: string;
+//   offeredProducts: ProductDto[];
+//   discount?: number; // Calculated field
+//   price?: number; // Calculated field
+//   originalPrice?: number; // Calculated field
+// }
+
+export function SpecialPackageCardComponent({ pkg }: SpecialPackageCardProps) {
   const { addToCart, cartItems } = useCart();
   const [isAdding, setIsAdding] = useState(false);
 
@@ -26,25 +30,8 @@ export function SpecialPackageCard({ pkg }: SpecialPackageCardProps) {
 
     // Add each product in the package to cart
     pkg.offeredProducts.forEach((product) => {
-      addToCart(
-        product.id,
-        product.price,
-        product.name,
-        product.imageUrl,
-        1, // quantity
-        product.brandName,
-      );
+      addToCart(product, 1);
     });
-
-    // Add the package itself as a special item
-    addToCart(
-      pkg.id,
-      pkg.price,
-      pkg.name,
-      pkg.offeredProducts[0]?.imageUrl || "",
-      1,
-      "Special Package",
-    );
 
     setTimeout(() => setIsAdding(false), 1000);
   };
@@ -53,8 +40,8 @@ export function SpecialPackageCard({ pkg }: SpecialPackageCardProps) {
   const packageItemsInCart = cartItems
     .filter(
       (item) =>
-        pkg.offeredProducts.some((product) => product.id === item.productId) ||
-        item.productId === pkg.id,
+        pkg.offeredProducts.some((product) => product.id === item.id) ||
+        item.id === pkg.id,
     )
     .reduce((sum, item) => sum + item.quantity, 0);
 
